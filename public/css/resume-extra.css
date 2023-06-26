@@ -1,0 +1,10 @@
+.list-inline-item {
+    text-align: center;
+  }
+  
+.language-name {
+  margin-top: 10px; /* adjust as needed */
+  font-size: 21px;
+  font-weight:bold; 
+
+}
