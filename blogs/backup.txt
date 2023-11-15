@@ -1,0 +1,78 @@
+---
+title: "Good Tech Tutorials/Blogs/Sites"
+date: 2023-11-13T00:00:00+05:30
+draft: false
+author: "Ziming Wang"
+tags: 
+  - resource-sharing
+image: /post.jpg
+description: "Some good tutorials/articles/blogs that I found useful in my study and programming."
+toc: true
+mathjax: false
+---
+*Last Edit: 2023-11-13*
+
+
+<br>
+
+
+## Web Dev
+**[[SITE]](https://www.bezkoder.com/)** Full stack web dev reference site. It has code example for any combo you want, e.g. Springboot+React, Django+Vue... Not comprehensive tutorials but definitely sufficient to create a runnable tech stack rapidly. I found this especially useful when setting things up during the initialization phrase where you connect frontend/backend/DB/Middlewares...
+
+
+**[[ARTICLE]](https://www.freecodecamp.org/news/what-exactly-is-client-side-rendering-and-hows-it-different-from-server-side-rendering-bd5c786b340d/)** Client-side rendering VS server-side rendering
+
+
+<br>
+
+
+## Machine Learning/Data/AI
+**[[ARTICLE](https://blog.insightdatascience.com/bias-variance-tradeoff-explained-fa2bc28174c4)]** An in-depth explanation about bias and variance.
+
+
+**[[ARTICLE](https://www.jeremyjordan.me/batch-normalization/)]** Importance of normalising data in neutral networks. 
+
+
+**[[TUTORIAL]](https://www.youtube.com/watch?v=aircAruvnKk&list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&index=1)** The best series of introductory videos for neutral networks Mainly talked about MLP.
+
+
+**[[COURSE](https://www.youtube.com/@firstprinciplesofcomputerv3258)]** University of Columbia's full computer vision course. Exceptionally well structured and delivered.
+
+
+**[[ARTICLE](https://distill.pub/2017/feature-visualization/)]** Feature visualization and how convolutional neutral network learns
+
+
+**[[SITE](https://convnetplayground.fastforwardlabs.com/#/models)]** A pre-trained CNN playground. You can use different pre-trained CNN as feature extractors. Then use extracted embeddings to perform Sementic Search - find another similar image within a dataset. There are many adjustable parameters, including datasets, pre-trained CNN, which layer you want to use, and distance metrics. Pretty fun to play around to see the effect of using different pre-trained CNN layers to extract features.
+
+
+<br>
+
+
+## Computer Networks
+
+
+**[[TUTORIAL]](https://www.youtube.com/watch?v=ZMcmspNpkOw&list=PLMLm7-g0V0kdRIhd-qOtDSfG1tNAaQCBz&index=1&t=10s)** Good computer network tutorials. It might be person-to-person-based but I really like the presentation and speaking style of this one.
+
+
+**[[ARTICLE]](https://github.com/alex/what-happens-when)** What happens when you access a website? Explain all OSI layers' behaviour from the physical layer to the application layer.
+
+
+**[[SITE]](https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/)** Visualise and let you play with TCP's retransmission. Helpful to the exam.
+
+
+## Artifical Intelligence (in traditional sense )
+**[[TUTORIAL]](https://www.youtube.com/watch?v=UXW2yZndl7U&list=PL2bg-mBy9Lqi7Q14cOqOK7zVvR6Jfk4nA&index=4)** This professor is literally the ultimate life saver. Truly legend professor. AI has been extended to many broad definition and nowadays people call all things AI, object detection, language model. This subject is sort of like the AI in traditional sense - in my understanding, non-data based AI. In unimelb's coursework as example, topics like in-depth search algorithm, heuristic based game AI (not training data based), planning, and reinforcement learning maybe.
+
+
+<br>
+
+
+## Distributed/Cloud
+**[[COURSE]](https://pdos.csail.mit.edu/6.824/schedule.html)** MIT's Distributed Systems. Most reputable yet challenging Distributed System course. It introduces a new web middleware/DB/tech every module. But heavily depends on your self-learning skills, and you need to read the original papers before watching the lectures. If you also feel sad taking Unimelb's ill-designed trash course COMP90015 - Distributed Systems (40% of the content overlaps with COMP30023, 60% of the contents are too high-level and old AF), then consider self-studying this by yourself.
+
+
+<br>
+<br>
+
+
+

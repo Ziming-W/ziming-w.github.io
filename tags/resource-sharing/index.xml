@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Ziming Wang</title>
-    <link>/blogs/</link>
-    <description>Recent content in Blogs on Ziming Wang</description>
+    <title>resource-sharing on Ziming Wang</title>
+    <link>/tags/resource-sharing/</link>
+    <description>Recent content in resource-sharing on Ziming Wang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Nov 2023 00:00:00 +0530</lastBuildDate><atom:link href="/blogs/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Nov 2023 00:00:00 +0530</lastBuildDate><atom:link href="/tags/resource-sharing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Good Tech Tutorials/Blogs/Sites</title>
       <link>/blogs/resource-sharing/</link>
