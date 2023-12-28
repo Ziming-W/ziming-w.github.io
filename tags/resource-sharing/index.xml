@@ -15,7 +15,9 @@
       <guid>/blogs/resource-sharing/</guid>
       <description>Last Edit: 2023-11-15
 Here are some good tutorials/articles/blogs that I found useful in my study and programming.
-Web Dev [SITE] Full stack web dev reference site. It has code example for any combo you want, e.g. Springboot+React, Django+Vue&amp;hellip; Not comprehensive tutorials but definitely sufficient to create a runnable tech stack rapidly. I found this especially useful when setting things up during the initialization phrase where you try to connect frontend/backend/DB/Middlewares and test their collaboration.</description>
+Backend [Tutorial] [Notes] Authentication on the web. JWT, session, cookie, XSS, CSRF&amp;hellip;
+[Tutorial] System Design Interview with AWS. Design Youtube, Whatsapp, Twitter.
+[SITE] Full stack web dev reference site. It has code example for any combo you want, e.g. Springboot+React, Django+Vue&amp;hellip; Not comprehensive tutorials but definitely sufficient to create a runnable tech stack rapidly for testing purposes.</description>
     </item>
     
   </channel>
