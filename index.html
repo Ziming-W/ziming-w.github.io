@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
-<link rel="icon" href=/fav.png type="image/gif">
+
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,19 +77,18 @@
     }
 
     body::-webkit-scrollbar {
-        width: .5em;
-        height: .5em;
+        height: 0px;
+        width: 8px;
         background-color: var(--background-color);
     }
     
     ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px var(--background-color);
         border-radius: 1rem;
     }
     
     ::-webkit-scrollbar-thumb {
         border-radius: 1rem;
-        background-color: var(--secondary-color);
+        background: #b0b0b0;
         outline: 1px solid var(--background-color);
     }
 
@@ -105,7 +104,7 @@
 <link rel="stylesheet" href="/css/projects.css" media="all">
 
 
-<script defer src="/fontawesome-5/all-5.15.4.js"></script>
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
 
   <title>
 Ziming Wang
@@ -137,11 +136,14 @@ Ziming Wang
 
 
 
-<header>
+
+
+<header id="profileHeader">
     <nav class="pt-3 navbar navbar-expand-lg animate">
         <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
             
             <a class="navbar-brand primary-font text-wrap" href="/">
+                
                 
                 Ziming&#39;s Portfolio
                 
@@ -226,28 +228,6 @@ Ziming Wang
                     
 
                     
-                    <li class="nav-item navbar-text">
-                        
-                        <div class="text-center">
-                            <button id="theme-toggle">
-                                <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                </svg>
-                                <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                    
 
                 </ul>
 
@@ -270,8 +250,9 @@ Ziming Wang
                     
                 </h3>
                 <p class="hero-content">
-                    <h5 id="master-of-information-technology-student">Master of Information Technology Student</h5>
-<h5 id="university-of-melbourne">University of Melbourne</h5>
+                    <h5 id="-backend-developer">► Backend Developer</h5>
+<h5 id="-master-of-information-technology---distributed-computing-student">► Master of Information Technology - Distributed Computing Student</h5>
+<h5 id="-university-of-melbourne">► University of Melbourne</h5>
 
                 </p>
                 <div class="row">
@@ -300,7 +281,7 @@ Ziming Wang
             <div class="col-sm-12 col-md-12 col-lg-4">
                 <div class="row justify-content-center">
                     <div class="col-sm-12 col-md-9 pt-5 image animate px-5 px-md-5 px-lg-0 text-center">
-                        <img src="/images/hero.svg"
+                        <img src=""
                             class="img-thumbnail mx-auto"
                             alt=""
                         >
@@ -580,41 +561,38 @@ Ziming Wang
         <h3 class="text-center bg-transparent">About Me</h3>
         <div class="bg-transparent row justify-content-center px-3 py-5">
             
-            <div class="col-sm-12 col-md-8 col-lg-4 mb-5 mb-sm-0 mb-md-5 mb-lg-0 d-none d-sm-none d-md-block">
-                <div class="image d-flex px-5">
-                    <img src="/images/me.png" class="img-thumbnail mx-auto rounded-circle" alt="">
-                </div>
-            </div>
-            
             <div class="col-sm-12 col-md-12 col-lg-8 content">
-                <p>I am a Master of Information Technology student with the specialization of Distributed Computing at the University of Melbourne. Prior to this, I completed my Bachelor of Science - Computing and Software Systems degree with a First-Class Honour Distinction (H1) at the same institution.</p>
-<p>I have a keen interest in the fields of backend web development, system architecture, distributed/cloud computing, and machine learning/AI. I have experiences in several backend web frameworks including Spring Boot, Django, and Node.js. I also possess essential frontend skills such as HTML/CSS/JS. I chose distributed computing as my specialization for my master&rsquo;s course, in order to further enhance my backend development and system architecture skills.</p>
-<p>In addition, I have a distinct skill set in data wrangling and machine learning. I took multiple relevant elective subjects at Unimelb including data processing, machine learning, artificial intelligence, probability theory, computer vision and NLP (planned). These courses have equipped me with valuable expertise in data manipulation and predictive modeling, enabling me to contribute to data-driven solutions that enhance the intelligence of applications.
+                <p>I am a Master of Information Technology student specializing in Distributed Computing at the University of Melbourne. Prior to this, I completed my Bachelor of Science - Computing and Software Systems degree with a first-class honour distinction (H1) at the same institution.</p>
+<p>I have a keen interest in the fields of backend development, system architecture, distributed/cloud computing, and machine learning/AI. My most proficient skill is <code>backend development</code>. I have multiple project experiences using backend frameworks including <code>Spring Boot</code>, <code>Django</code>, and <code>Node.js</code>. I am also proficient in other important dev tools such as <code>SQL</code>, <code>Redis</code>, <code>ElasticSearch</code>, <code>Linux Admin</code>, <code>Docker</code>, <code>AWS</code>, etc. Additionally, my proficiency is reinforced by two backend development internship experiences, where I gained industrial knowledges and enhanced my technical skills. I chose distributed computing as my specialization for my master&rsquo;s course, in order to further enhance my backend development and software engineering skills.</p>
+<p>In addition, I have a distinct skill set in <code>data wrangling</code> and <code>machine learning</code>. I took multiple relevant elective subjects at Unimelb including data processing, machine learning, artificial intelligence, probability theory, computer vision and NLP (planned). These courses have equipped me with valuable expertise in data manipulation, machine learning, and AI algorithms.
 <br></p>
 <h3 id="some-of-the-technologies-i-am-familar-with">Some of the Technologies I am Familar with</h3>
-<p>#Most Proficient Programming Languages</p>
+<p># Most Proficient Programming Languages</p>
 <ul>
 <li>Java</li>
 <li>Python</li>
 <li>C</li>
 <li>Haskell</li>
 </ul>
-<p>#Web Dev &amp; Backend</p>
+<p># Web Dev &amp; Backend</p>
 <ul>
-<li>Springboot</li>
 <li>Django</li>
-<li>NodeJS</li>
-<li>ExpressJS</li>
+<li>Springboot</li>
+<li>NodeJS/ExpressJS</li>
+<li>ElasticSearch</li>
+<li>ELK Stack</li>
+<li>Linux Admin</li>
 <li>SQL</li>
 <li>MongoDB</li>
 <li>Redis</li>
 <li>RabbitMQ</li>
 </ul>
-<p>#Others</p>
+<p># Others</p>
 <ul>
 <li>Git</li>
+<li>Unit Testing</li>
 <li>Machine Learning</li>
-<li>Data Analysis</li>
+<li>Data Processing</li>
 </ul>
 
 
@@ -623,13 +601,6 @@ Ziming Wang
         </div>
     </div>
 </section>
-
-
-
-
-
-
-
 
 <section id="experience" class="py-5">
     <div class="container">
@@ -646,9 +617,9 @@ Ziming Wang
                                 aria-selected="true" 
                                 role="tab" 
                                 data-bs-toggle="pill"
-                                id='Vosyn-Nov-2023---present-tab'
-                                data-bs-target='#pills-Vosyn-Nov-2023---present'
-                                aria-controls='Vosyn-Nov-2023---present' 
+                                id='Vosyn-Nov-2023---Feb-2024-tab'
+                                data-bs-target='#pills-Vosyn-Nov-2023---Feb-2024'
+                                aria-controls='Vosyn-Nov-2023---Feb-2024' 
                             >
                                 Vosyn
                             </div>
@@ -694,22 +665,22 @@ Ziming Wang
                         <div 
                             class="tab-pane fade show active bg-transparent" 
                             role="tabpanel"
-                            id='pills-Vosyn-Nov-2023---present'
-                            aria-labelledby='pills-Vosyn-Nov-2023---present-tab'
+                            id='pills-Vosyn-Nov-2023---Feb-2024'
+                            aria-labelledby='pills-Vosyn-Nov-2023---Feb-2024-tab'
                         >
                             <div>
-                                <span class="h4">Software Engineering Intern</span>
+                                <span class="h4">Software Engineering Intern (Backend)</span>
                                 <small>-</small>
-                                <a href="https://vosyn.ai/" target="_blank">Vosyn</a>
+                                <a href="https://www.linkedin.com/company/vosyn/" target="_blank">Vosyn</a>
                                 <div class="pb-1">
-                                    <small>Nov 2023 - present</small>
+                                    <small>Nov 2023 - Feb 2024</small>
                                     
                                     <span class="p-2">
                                         <span 
                                             style="cursor: pointer;" 
                                             data-bs-toggle="tooltip" 
                                             data-bs-placement="top" 
-                                            data-bs-original-title=Working&#32;as&#32;a&#32;Software&#32;Engineering&#32;Intern&#32;at&#32;Vosyn
+                                            data-bs-original-title=Working&#32;as&#32;a&#32;Software&#32;Engineering&#32;Intern&#32;(Backend)&#32;at&#32;Vosyn
                                         >
                                             <i class="fas fa-info-circle fa-xs"></i>
                                         </span>
@@ -720,8 +691,17 @@ Ziming Wang
                                 
                             </div>
 
-                            <p>I started my Software Engineering Internship on November 13th, 2023 at Vosyn.</p>
-<p>Vosyn is an innovative and visionary company at the forefront of AI voice synthesis technology. Our aim is to reshape the way people interact with content across various languages and mediums.</p>
+                            <p>Vosyn is an innovative company that aims to develop state-of-the-art AI voice synthesis models and content auto-dubbing pipelines to reshape the way people interact with contents across various languages. I work in Vosyn&rsquo;s software team as a backend software engineer to develop Vosyn&rsquo;s content platform from the ground up.
+I actively engage in:</p>
+<ul>
+<li>Draft, model, and maintain the <code>PostgreSQL</code> database with <code>Django ORM</code></li>
+<li>Use <code>Django-Rest-Framework</code> to build backend API</li>
+<li>Write <code>unit testing</code> to ensure the quality and integrity of backend code</li>
+<li>Fully in charge of using <code>ElasticSearch</code> and <code>ELK stack</code> to provide search feature for Vosyn&rsquo;s content platform, including advanced search features (Fuzzy Search + Search-as-You-Type). Deploy the stack in AWS EC2 and test availabilty</li>
+<li>Fully in charge of building a data synchronization pipeline that incrementally transforms and transfers data from PostgreSQL to ElasticSearch. Utilized <code>Logstash</code> as the chosen middleware, after conducting thorough assessments and testings of various middlewares</li>
+<li>Collaborate closely with DevOps for <code>AWS</code> services and system architecture by engaging in frequent meetings</li>
+<li>Practice <code>agile/scrum</code> development methodology</li>
+</ul>
 
                         </div>
                         
@@ -747,12 +727,11 @@ Ziming Wang
                             </div>
 
                             <div class="pt-2">
-                                <p>I worked as a backend web developer intern at Software Engineering Center, Chinese Academy of Sciences.
-My responsiblities are:</p>
+                                <p>I worked as a backend developer at <em>Software Engineering Center, Chinese Academy of Sciences</em>.
+My responsiblities include:</p>
 <ul>
-<li>Develop a strong foundation in Java SpringBoot by studying, maintaining, and extending an enterprise level SpringBoot-Vue-MySQL full stack web application.</li>
-<li>Gain exposure to several key features and frameworks used in modern Spring Boot, including Spring Data JPA, Spring Security, Spring MVC, Spring Data Redis, etc.</li>
-<li>Design a distributed system architecture, utilizing Redis to handle user registration and verification. Use RabbitMQ to queue user-submitted requests in order to increase scalability.</li>
+<li>Develop a strong foundation in Java <code>SpringBoot</code> by studying, maintaining, and extending an enterprise level SpringBoot-Vue-MySQL full stack web application. Gain exposure to several key features and frameworks used in modern Spring Boot, including Spring Data JPA, Spring Security, etc.</li>
+<li>Extend the functionality of the application by designing and implementing a distributed architecture. Utilize <code>Redis</code> for caching duration user registration and verification. Use <code>RabbitMQ</code> to queue user-submitted requests to increase scalability.</li>
 </ul>
 
                             </div>
@@ -767,7 +746,7 @@ My responsiblities are:</p>
                             aria-labelledby='pills-E-tutoring-platforms-2021---2022-tab'
                         >
                             <div>
-                                <span class="h4">Casual Academic Tutor</span>
+                                <span class="h4">Academic Tutor</span>
                                 <small>-</small>
                                 <a href="" target="_blank">E-tutoring platforms</a>
                                 
@@ -997,8 +976,32 @@ My responsiblities are:</p>
             <div class="card h-100">
                 
                 <div class="card-header">
+                    <a href="/blogs/deploy-elk-ubuntu/">
+                        <img src="/elk.jpg" class="card-img-top" alt="Deploy ELK Stack on a Remote Ubuntu VM">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/deploy-elk-ubuntu/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Deploy ELK Stack on a Remote Ubuntu VM">Deploy ELK Stack on a Remote Ubuntu VM</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">February 8, 2024</span>
+                    <a href="/blogs/deploy-elk-ubuntu/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
                     <a href="/blogs/resource-sharing/">
-                        <img src="/post.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
+                        <img src="/post-default.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
                     </a>
                 </div>
                 
@@ -1007,7 +1010,7 @@ My responsiblities are:</p>
                         <h5 class="card-title bg-transparent" title="Good Tech Tutorials/Blogs/Sites">Good Tech Tutorials/Blogs/Sites</h5>
                     </a>
                     <div class="card-text secondary-font">
-                        <p>Some good tutorials/articles/blogs that I found useful in my study and programming.</p>
+                        <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
@@ -1069,29 +1072,16 @@ My responsiblities are:</p>
     
 </div>
 
-<br><br><br><br><br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+
+<br>
+<br>
+<br>
+<br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
 <script>
     if (document.body.className.includes("light")) {
         document.body.classList.add('dark');
         localStorage.setItem("pref-theme", 'dark');
     }
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-
 </script>
 
 

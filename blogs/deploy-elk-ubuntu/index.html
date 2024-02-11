@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      media="print" onload="this.media='all'" />
+<noscript>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+</noscript>
+
+
+<link rel="stylesheet" href="/css/font.css" media="all">
+
+
+
+<meta property="og:title" content="Deploy ELK Stack on a Remote Ubuntu VM" />
+<meta property="og:description" content="Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blogs/deploy-elk-ubuntu/" /><meta property="article:section" content="blogs" />
+<meta property="article:published_time" content="2024-02-08T00:00:00+05:30" />
+<meta property="article:modified_time" content="2024-02-08T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Deploy ELK Stack on a Remote Ubuntu VM"/>
+<meta name="twitter:description" content="Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM"/>
+
+
+<link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
+<link rel="stylesheet" href="/css/footer.css" media="all">
+
+
+<link rel="stylesheet" href="/css/theme.css" media="all">
+
+
+
+
+<style>
+    :root {
+        --text-color: #343a40;
+        --text-secondary-color: #6c757d;
+        --background-color: #eaedf0;
+        --secondary-background-color: #64ffda1a;
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+
+         
+        --text-color-dark: #e4e6eb;
+        --text-secondary-color-dark: #b0b3b8;
+        --background-color-dark: #18191a;
+        --secondary-background-color-dark: #212529;
+        --primary-color-dark: #ffffff;
+        --secondary-color-dark: #212529;
+    }
+    body {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    html {
+        background-color: var(--background-color) !important;
+    }
+
+    body::-webkit-scrollbar {
+        height: 0px;
+        width: 8px;
+        background-color: var(--background-color);
+    }
+    
+    ::-webkit-scrollbar-track {
+        border-radius: 1rem;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background: #b0b0b0;
+        outline: 1px solid var(--background-color);
+    }
+
+    #search-content::-webkit-scrollbar {
+        width: .5em;
+        height: .1em;
+        background-color: var(--background-color);
+    }
+</style>
+
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/single.css">
+
+
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
+
+  <title>
+Deploy ELK Stack on a Remote Ubuntu VM | Ziming Wang
+
+  </title>
+</head>
+
+<body class="light">
+  
+  
+<script>
+    let localStorageValue = localStorage.getItem("pref-theme");
+    let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    switch (localStorageValue) {
+        case "dark":
+            document.body.classList.add('dark');
+            break;
+        case "light":
+            document.body.classList.remove('dark');
+            break;
+        default:
+            if (mediaQuery) {
+                document.body.classList.add('dark');
+            }
+            break;
+    }
+</script>
+
+
+
+
+
+<header id="profileHeader">
+    <nav class="pt-3 navbar navbar-expand-lg animate">
+        <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
+            
+            <a class="navbar-brand primary-font text-wrap" href="/">
+                
+                
+                Ziming&#39;s Portfolio
+                
+            </a>
+
+            
+                <div>
+                    <input id="search" autocomplete="off" class="form-control mr-sm-2 d-none d-md-block" placeholder='Ctrl &#43; k to Search...'
+                        aria-label="Search" oninput="searchOnChange(event)">
+                </div>
+            
+
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                    <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path>
+                </svg>
+            </button>
+
+            
+            <div class="collapse navbar-collapse text-wrap primary-font" id="navbarContent">
+                <ul class="navbar-nav ms-auto text-center">
+                    
+                        <li class="nav-item navbar-text d-block d-md-none">
+                            <div class="nav-link">
+                                <input id="search" autocomplete="off" class="form-control mr-sm-2" placeholder='Ctrl &#43; k to Search...' aria-label="Search" oninput="searchOnChange(event)">
+                            </div>
+                        </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#about" aria-label="about">
+                            About Me
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#experience"
+                            aria-label="experience">
+                            Experience
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#education"
+                            aria-label="education">
+                            Education
+                        </a>
+                    </li>
+                    
+
+                    
+
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#contact"
+                            aria-label="contact">
+                            Contact Me
+                        </a>
+                    </li>
+                    
+
+                    
+                    
+                    
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/blogs" title="Blog posts">
+                            
+                            Blog
+                        </a>
+                    </li>
+                    
+                    
+
+                    
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="content">
+<section id="single">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-lg-9">
+        <div class="pr-lg-4">
+          <div class="title mb-5">
+            <h1 class="text-center mb-4">Deploy ELK Stack on a Remote Ubuntu VM</h1>
+            <div class="text-center">
+              Ziming Wang 
+              <small>|</small>
+              Feb 8, 2024
+
+              
+              <span id="readingTime">
+                min read
+              </span>
+              
+            </div>
+          </div>
+          
+          <div class="featured-image">
+            <img class="img-fluid mx-auto d-block" src="/elk.jpg" alt="Deploy ELK Stack on a Remote Ubuntu VM">
+          </div>
+          
+          <article class="page-content  p-2">
+          <h2 id="purpose">Purpose</h2>
+<ul>
+<li>Deploy ElasticSearch (8.X), Kibana (8.X), Logstash (8.X), and PostgreSQL14 (optional) as native services on a AWS EC2 Ubuntu VM</li>
+<li>Allow outside access for ES and Kibana.</li>
+<li>Set up data syncing between ES and PostgreSQL, using Logstash + PostgreSQL JDBC.</li>
+</ul>
+<p>!!!! <strong><u>Notice that this is a very simple test deployment but not a production-ready deployment!</u></strong></p>
+<p>I only want to:</p>
+<ol>
+<li>test availability of ELK stack</li>
+<li>!!!! create some deployed search APIs for my frontend colleagues to call (through a backend server as the proxy), making their development easier</li>
+</ol>
+<br>
+<br>
+<h2 id="key-ideas">Key Ideas</h2>
+<ul>
+<li>Expose port 9200 for ElasticSearch&rsquo;s programmatic interface. Your backend server can use ElasticSearch&rsquo;s REST APIs here.</li>
+<li>Expose port 5601 for Kibana&rsquo;s GUI admin interface. You can access it in your local machine&rsquo;s browser.</li>
+<li>Deploy Logstash for data syncing between ES and PostgreSQL.</li>
+<li>I also included an extra section for deploying PostgreSQL. It is optional if you have a running and reachable DB already. I added this section cuz it is easier to set it up on the VM instead of AWS RDS for my testing purpose.</li>
+</ul>
+<br>
+<br>
+<h2 id="why-this-guide">Why this Guide?</h2>
+<ul>
+<li>I initially followed <u><a href="https://www.digitalocean.com/community/tutorials/how-to-install-elasticsearch-logstash-and-kibana-elastic-stack-on-ubuntu-22-04">[<strong>this guide</strong>]</a></u>. However, it uses Version 7.X, which has different security settings than the latest 8.X. So Additional settings need to be configured for 8.X. Besides, this guides use Nginx as reverse proxy to handle all the traffic. But I want to skip this step and expose ES and Kibana directly to public.</li>
+<li>ElasticSearch&rsquo;s official guide can be found <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html">[<strong>here</strong>]</a>. But it is sort of incomplete and contains redundant information.</li>
+</ul>
+<br>
+<br>
+<h2 id="my-ec2-vm">My EC2 VM</h2>
+<ul>
+<li>System: Ubuntu 22.04.3 LTS (GNU/Linux 6.2.0-1018-aws x86_64)</li>
+<li>Machine: t3.large, 2 vCPUs, 8GB memory. I tried 4GB and it is pretty laggy</li>
+<li>Firewall: port 9200, 5601 open. Also open PostgreSQL&rsquo;s default port if you want.</li>
+</ul>
+<br>
+<br>
+<h2 id="es-and-kibana">ES and Kibana</h2>
+<h3 id="install-java">Install Java</h3>
+<ul>
+<li><code>sudo apt update</code></li>
+<li><code>sudo apt install default-jre</code></li>
+<li><code>sudo apt install default-jdk</code></li>
+<li>check for success:
+<ul>
+<li><code>java -version</code></li>
+<li><code>javac -version</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="install-elasticsearch-8113">Install ElasticSearch (8.11.3)</h3>
+<p>Install signing key.</p>
+<ul>
+<li><code>curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elastic.gpg</code></li>
+<li><code>echo &quot;deb [signed-by=/usr/share/keyrings/elastic.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main&quot; | sudo tee /etc/apt/sources.list.d/elastic-8.x.list</code></li>
+</ul>
+<p>Install ES</p>
+<ul>
+<li><code>sudo apt update</code></li>
+<li><code>sudo apt install elasticsearch=8.11.3</code></li>
+</ul>
+<p>Now, start ES as a service, it is gonna take a while</p>
+<ul>
+<li><code>sudo systemctl start elasticsearch</code></li>
+</ul>
+<p>Health check</p>
+<ul>
+<li><code>sudo systemctl status elasticsearch</code></li>
+</ul>
+<p>Then, we reset the password. It is easier to reset it than to find the default one in logs.</p>
+<ul>
+<li><code>sudo /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic</code></li>
+</ul>
+<p>The password should have been output to the terminal, copy it, then store it in an env variable:</p>
+<ul>
+<li><code>export ES_PWD='&lt;THE PASSWORD VALUE&gt;'</code></li>
+</ul>
+<p>Test connection locally, a JSON should be returned</p>
+<ul>
+<li><code>curl -k -X GET -u elastic:$ES_PWD &quot;https://localhost:9200&quot;</code></li>
+</ul>
+<p>Now, we check if this port has been exposed to outside traffic successfully, open your <strong>local machine&rsquo;s</strong> terminal, run:</p>
+<ul>
+<li><code>curl -k -X GET -u elastic:&lt;THE PASSWORD VALUE&gt; &quot;https://&lt;Remote VM IP&gt;:9200&quot;</code></li>
+</ul>
+<p>The same json as last step should be returned.</p>
+<p><strong>Very important: We use -k to bypass the certification validation, so that the request can be sent even if our cert is self-signed in ES. Otherwise, the request will be rejected by CRUL. Using self-signed Certification will yield a signficant security threat (E.g. Man-in-the-middle attack). It is highly suggested to add a valid certificate as soon as possible</strong></p>
+<p><em>If you failed somewhere, troubeshotting</em></p>
+<ul>
+<li>check your VM firewall. Is 9200 open?</li>
+<li>Have you messed up ES&rsquo;s config file? Open <code>sudo nano /etc/elasticsearch/elasticsearch.yml</code>
+<ul>
+<li>check that <code>http.host</code> should be <code>0.0.0.0</code>. This is the default setting.</li>
+<li><code>network.host</code> should be commented or set as <code>localhost</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="install-kibana-8113">Install Kibana (8.11.3)</h3>
+<ul>
+<li>Install Kibana <code>sudo apt-get update &amp;&amp; sudo apt-get install kibana=8.11.3</code></li>
+<li>Start Kibana <code>sudo systemctl start kibana</code></li>
+<li>Health check <code>sudo systemctl status kibana</code></li>
+</ul>
+<p>Now we edit config to allow outside traffic, open the config file:</p>
+<ul>
+<li><code>sudo nano /etc/kibana/kibana.yml</code></li>
+</ul>
+<p>UNCOMMENT and/or EDIT following configs, when you are done, don&rsquo;t forget to CTRL+S to save !</p>
+<ul>
+<li>!!! Make sure you uncomment them by removing the #</li>
+<li>!!! you can press CTRL+W to search. It is faster than scolling down</li>
+<li><code>server.host: 0.0.0.0</code></li>
+<li><code>server.port: 5601</code></li>
+<li><code>elasticsearch.hosts: [&quot;http://localhost:9200&quot;]</code></li>
+</ul>
+<p>Restart Kibana <code>sudo systemctl restart kibana</code></p>
+<p>Go to <code>&lt;YOUR VM IP&gt;:5601</code> in your <strong>local machine&rsquo;s browser</strong>, you will get prompted to enter a token. If nothing shows up, wait for a while cuz it takes sometime for Kibana to start.</p>
+<p>Now, we re-generate an enrolment token for kibana to use</p>
+<ul>
+<li><code>sudo /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana</code></li>
+</ul>
+<p>Enter this token.</p>
+<p>Then, you will be prompted to enter a verification code</p>
+<ul>
+<li>run <code>journalctl -u kibana</code></li>
+<li>then keep scolling down by pressing the down arrow on your keyboard. On the last page, you can find the code there.</li>
+</ul>
+<p>Finally, you can use username/password to login, we have genereated the password for user <code>elastic</code> in earlier steps and stored it in an env variable. If you can&rsquo;t find it, run <code>echo $ES_PWD</code>. If you have lost it, no worries, follow earlier steps to generate a new one.</p>
+<h3 id="uninstall">Uninstall</h3>
+<p>During my setup, I frequently uninstall-reinstall ES and Kibana. Using <code>apt remove</code>, <code>purge</code> will not fully remove all configuration files for ES. Follow <a href="https://stackoverflow.com/questions/45585881/how-to-remove-elasticsearch-from-ubuntu">[<strong>this guide</strong>]</a> to manually <code>rm -rf</code> relevant folders for a full clean-up.</p>
+<br>
+<br>
+<h2 id="postgresql">PostgreSQL</h2>
+<p>Skip this section if you have any available deployed PostgreSQL ready. Otherwise, you can do it in a VM and I personally find it easier.</p>
+<p>We also gonna expose it to outside traffic so that you can connect to it from your local machine and easily insert data when testing Logstash.</p>
+<h3 id="install">Install</h3>
+<ul>
+<li><code>sudo apt update</code></li>
+<li><code>sudo apt install postgresql postgresql-contrib</code></li>
+<li>start service <code>sudo systemctl start postgresql</code></li>
+<li>health check <code>sudo systemctl status postgresql</code></li>
+</ul>
+<h3 id="configure">Configure</h3>
+<ul>
+<li>connect to shell <code>sudo -u postgres psql</code></li>
+<li>Set up your DB, DB user, DB user password, grant permissions, etc.</li>
+<li>Now, we edit config, open <code>sudo nano /etc/postgresql/&lt;version&gt;/main/postgresql.conf</code>, make sure you replace the version number with the actual one. To find the version number, <code>sudo ls /etc/postgresql</code>. Then, EDIT:
+<ul>
+<li>open to remote connection <code>listen_addresses = '*'</code></li>
+<li>add your ip to trust list. Add this line <code>host    all             &lt;DB USERNAME&gt;          &lt;YOUR IP ADDRESS&gt;/32           md5</code>. It is likely that you don&rsquo;t have a static public ip from your ISP. Just google any &ldquo;find my ip&rdquo; tool and use that IP unless it is changed (which will likely to happen often, e.g. you turn off your PC). If you have made everything working, but one day later PostgreSQL produces some ip-blocked errors, then change this line to your new public ip.</li>
+</ul>
+</li>
+<li>[Optional] Test connection from your <strong>local machine&rsquo;s</strong> shell
+<ul>
+<li><code>psql -h &lt;remote machine ip&gt; -p &lt;port&gt; -U &lt;DB USER&gt; -d &lt;DB NAME&gt;</code> to make sure you can connect to it locally.</li>
+<li>Then, you can use any DB admin GUI on your local PC e.g. DBeaver to play around and insert data when testing Logstash.</li>
+</ul>
+</li>
+</ul>
+<br>
+<br>
+<h2 id="logstash">Logstash</h2>
+<h3 id="install-logstash">Install Logstash</h3>
+<ul>
+<li><code>sudo apt install logstash</code></li>
+</ul>
+<h3 id="download-postgresql-jdbc">Download PostgreSQL jdbc</h3>
+<p>I am connecting PostgreSQL to ES so I need JDBC as a plugin to Logstash. If you are using MySQL, please download MySQL JDBC.</p>
+<ul>
+<li>download the jdbc jar to your local machine. <a href="https://jdbc.postgresql.org/download/">[<strong>link</strong>]</a></li>
+<li>now, we upload this jar to the VM. I used scp here.
+<ul>
+<li><code>scp -i &lt;path to your private key on your local machine&gt; &lt;path to the jdbc jar file on your local machine&gt; &lt;VM username&gt;@&lt;VM ip&gt;:&lt;VM directory path to store the file&gt;</code></li>
+</ul>
+</li>
+<li>now, go your VM, you should be able to see this file</li>
+</ul>
+<h3 id="insert-dummy-data-in-postgresql">Insert dummy data in postgresql</h3>
+<ul>
+<li>insert dummy data in postgresql</li>
+</ul>
+<h3 id="creata-an-api-key-in-kibana">Creata an api key in Kibana</h3>
+<ul>
+<li>go to kibana, create an api key in &ldquo;Logstash&rdquo; format. Copy and save it in your notepad.</li>
+</ul>
+<h3 id="create-logstash-configuration-file">Create logstash configuration file</h3>
+<p>Now, we create two configuration file for Logstash to use. <code>logstash.conf</code> is the main configuration file. I also created a <code>statement.sql</code> and let Logstash refer to this file for data syncing SQL. Or, you could put the SQL code inside <code>logstash.conf</code>, which also works.</p>
+<ul>
+<li>place <code>statement.sql</code> in <code>sudo nano ~/statement.sql</code> (or anywhere you like)</li>
+<li>place <code>logstash.conf</code> in <code>sudo nano ~/logstash.conf</code> (or anywhere you like)</li>
+</ul>
+<p>Now, we create <code>logstash.conf</code>. I believe that before trying to deploy to VM, you must have tried running logstash locally. There are a couple of things that need to be changed in this file accordingly. This file will vary from one person to another. Here is a checklist including what I changed. Make sure you thoroughly go through yours.</p>
+<ul>
+<li>modify <code>jdbc_driver_library</code> to the absolute path where you stored the JDBC on VM</li>
+<li>modify <code>jdbc_connection_string</code> if needed, make sure it points to your postgresql</li>
+<li>modify <code>api_key</code> to the one you just created earlier</li>
+<li>since I used a seperate SQL file, I need to modify <code>statement_filepath</code> to the abosolute path of the file. I placed <code>statement.sql</code> in home. So it is <code>/home/&lt;User&gt;/statement.sql</code>. !!! Make sure you use absoluate path here!!!, not relative path like <code>./statement.sql</code> ❌</li>
+</ul>
+<h3 id="run-logstash">Run logstash</h3>
+<p>Here, I run logstash through terminal directly instead of running it as a service. Because it is easier to specify extra arguments (I am using aggregate filter, so I need to limit number of worker thread to be 1 <code>-w 1</code>). If you are not using this aggregate filter then NVM.</p>
+<ul>
+<li>Normal: <code>sudo /usr/share/logstash/bin/logstash -f ~/logstash.conf</code></li>
+<li>For me (aggregate filter) <code>sudo /usr/share/logstash/bin/logstash -f ~/logstash.conf -w 1</code></li>
+</ul>
+<p>The process should be running.</p>
+<p>Since we are not running it as a service, we need to make sure the process is running after we close the shell, to achieve this, stop the process above, instead, do:</p>
+<ul>
+<li><code> nohup sudo /usr/share/logstash/bin/logstash -f ~/logstash.conf &gt; /dev/null 2&gt;&amp;1 &amp;</code></li>
+<li>For me (aggregate filter) <code> nohup sudo /usr/share/logstash/bin/logstash -f ~/logstash.conf -w 1 &gt; /dev/null 2&gt;&amp;1 &amp;</code></li>
+</ul>
+<p>(I also manually discarded stdout output)</p>
+<br>
+<br>
+<h2 id="good-jooooob">GOOD JOOOOOB</h2>
+<p>GOOOD JOOOOOOB.</p>
+<br>
+<br>
+<h2 id="what-next-for-a-better-set-up">What Next for a better set up?</h2>
+<p>It might not be the best suggestions, just some of my thoughts.</p>
+<ul>
+<li>!!! Add more ES nodes and form a cluster to handle high concurrency</li>
+<li>Have a valid SSL certificate in ElasticSearch and Kibana if you want to keep them exposed</li>
+<li>Exposing everything/setting up https for all is too bad? =&gt; Reverse proxy!</li>
+<li>Optimize security settings</li>
+<li>Distribute these applications to different machines</li>
+<li>etc&hellip;</li>
+</ul>
+<br>
+<br>
+<h2 id="extra-why-backend-as-a-proxy">Extra: Why backend as a proxy?</h2>
+<p>Why we need to use backend server as a proxy to bridge frontend and ElasticSearch? Can&rsquo;t we let frontend access ES directly to reduce network overhead? By:</p>
+<ul>
+<li>setting up an frontend only API key with limited query permission</li>
+<li>let ElasticSearch do the input validation/sanitization</li>
+<li>pre-construct search query associated with API key in ElasticSearch</li>
+</ul>
+<p>Here are some of the reasons why we can&rsquo;t do it, there may be more:</p>
+<ul>
+<li>less secure than a dedicated backend server.</li>
+<li>some search engine natively support this, e.g. TypeSense. ElasticSearch recently added support for this, with the help of &ldquo;Search Application&rdquo;. However,
+<ul>
+<li>&ldquo;Search Application&rdquo; is still in beta.</li>
+<li>&ldquo;Search Application&rdquo; is premium account only.</li>
+<li><a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/search-application-security.html">[<strong>READ MORE</strong>]</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="end">End</h2>
+<p>Thanks for reading!</p>
+
+          </article>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-3">
+        <div id="stickySideBar" class="sticky-sidebar">
+          
+          <aside class="toc">
+              <h5>
+                Table Of Contents
+              </h5>
+              <div class="toc-content">
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#purpose">Purpose</a></li>
+    <li><a href="#key-ideas">Key Ideas</a></li>
+    <li><a href="#why-this-guide">Why this Guide?</a></li>
+    <li><a href="#my-ec2-vm">My EC2 VM</a></li>
+    <li><a href="#es-and-kibana">ES and Kibana</a>
+      <ul>
+        <li><a href="#install-java">Install Java</a></li>
+        <li><a href="#install-elasticsearch-8113">Install ElasticSearch (8.11.3)</a></li>
+        <li><a href="#install-kibana-8113">Install Kibana (8.11.3)</a></li>
+        <li><a href="#uninstall">Uninstall</a></li>
+      </ul>
+    </li>
+    <li><a href="#postgresql">PostgreSQL</a>
+      <ul>
+        <li><a href="#install">Install</a></li>
+        <li><a href="#configure">Configure</a></li>
+      </ul>
+    </li>
+    <li><a href="#logstash">Logstash</a>
+      <ul>
+        <li><a href="#install-logstash">Install Logstash</a></li>
+        <li><a href="#download-postgresql-jdbc">Download PostgreSQL jdbc</a></li>
+        <li><a href="#insert-dummy-data-in-postgresql">Insert dummy data in postgresql</a></li>
+        <li><a href="#creata-an-api-key-in-kibana">Creata an api key in Kibana</a></li>
+        <li><a href="#create-logstash-configuration-file">Create logstash configuration file</a></li>
+        <li><a href="#run-logstash">Run logstash</a></li>
+      </ul>
+    </li>
+    <li><a href="#good-jooooob">GOOD JOOOOOB</a></li>
+    <li><a href="#what-next-for-a-better-set-up">What Next for a better set up?</a></li>
+    <li><a href="#extra-why-backend-as-a-proxy">Extra: Why backend as a proxy?</a></li>
+    <li><a href="#end">End</a></li>
+  </ul>
+</nav>
+              </div>
+          </aside>
+          
+
+          
+          <aside class="tags">
+            <h5>Tags</h5>
+            <ul class="tags-ul list-unstyled list-inline">
+              
+              <li class="list-inline-item"><a href="/tags/elasticsearch" target="_blank">ElasticSearch</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/kibana" target="_blank">Kibana</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/logstash" target="_blank">Logstash</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/ubuntu" target="_blank">Ubuntu</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/linux-admin" target="_blank">Linux Admin</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/postgresql" target="_blank">PostgreSQL</a></li>
+              
+            </ul>
+          </aside>
+          
+
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-9 p-4">
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "ziming-w" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </div>
+    </div>
+  </div>
+  <button class="p-2 px-3" onclick="topFunction()" id="topScroll">
+    <i class="fas fa-angle-up"></i>
+  </button>
+</section>
+
+
+<div class="progress">
+  <div id="scroll-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<Script src="/js/scrollProgressBar.js"></script>
+
+
+<script>
+  var topScroll = document.getElementById("topScroll");
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topScroll.style.display = "block";
+    } else {
+      topScroll.style.display = "none";
+    }
+  }
+
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  
+  let stickySideBarElem = document.getElementById("stickySideBar");
+  let stickyNavBar =  false ;
+  if(stickyNavBar) {
+    let headerElem = document.getElementById("profileHeader");
+    let headerHeight = headerElem.offsetHeight + 15;
+    stickySideBarElem.style.top = headerHeight + "px";
+  } else {
+    stickySideBarElem.style.top = "50px";
+  }
+</script>
+
+
+<script src="/js/readingTime.js"></script>
+
+
+
+  </div><footer>
+    
+ 
+ 
+<div class="container py-3" id="recent-posts">
+    
+    
+    <div class="h3 text-center text-secondary py-3">
+        Recent Posts
+    </div>
+    <div class="row justify-content-center">
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
+                    <a href="/blogs/deploy-elk-ubuntu/">
+                        <img src="/elk.jpg" class="card-img-top" alt="Deploy ELK Stack on a Remote Ubuntu VM">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/deploy-elk-ubuntu/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Deploy ELK Stack on a Remote Ubuntu VM">Deploy ELK Stack on a Remote Ubuntu VM</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">February 8, 2024</span>
+                    <a href="/blogs/deploy-elk-ubuntu/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
+                    <a href="/blogs/resource-sharing/">
+                        <img src="/post-default.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/resource-sharing/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Good Tech Tutorials/Blogs/Sites">Good Tech Tutorials/Blogs/Sites</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">November 13, 2023</span>
+                    <a href="/blogs/resource-sharing/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="text-center pt-2">
+    
+    <span class="px-1">
+        <a href="https://github.com/Ziming-W" aria-label="github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2.7em" height="2.7em" viewBox="0 0 1792 1792">
+                <path
+                    d="M522 1352q-8 9-20-3-13-11-4-19 8-9 20 3 12 11 4 19zm-42-61q9 12 0 19-8 6-17-7t0-18q9-7 17 6zm-61-60q-5 7-13 2-10-5-7-12 3-5 13-2 10 5 7 12zm31 34q-6 7-16-3-9-11-2-16 6-6 16 3 9 11 2 16zm129 112q-4 12-19 6-17-4-13-15t19-7q16 5 13 16zm63 5q0 11-16 11-17 2-17-11 0-11 16-11 17-2 17 11zm58-10q2 10-14 14t-18-8 14-15q16-2 18 9zm964-956v960q0 119-84.5 203.5t-203.5 84.5h-224q-16 0-24.5-1t-19.5-5-16-14.5-5-27.5v-239q0-97-52-142 57-6 102.5-18t94-39 81-66.5 53-105 20.5-150.5q0-121-79-206 37-91-8-204-28-9-81 11t-92 44l-38 24q-93-26-192-26t-192 26q-16-11-42.5-27t-83.5-38.5-86-13.5q-44 113-7 204-79 85-79 206 0 85 20.5 150t52.5 105 80.5 67 94 39 102.5 18q-40 36-49 103-21 10-45 15t-57 5-65.5-21.5-55.5-62.5q-19-32-48.5-52t-49.5-24l-20-3q-21 0-29 4.5t-5 11.5 9 14 13 12l7 5q22 10 43.5 38t31.5 51l10 23q13 38 44 61.5t67 30 69.5 7 55.5-3.5l23-4q0 38 .5 103t.5 68q0 22-11 33.5t-22 13-33 1.5h-224q-119 0-203.5-84.5t-84.5-203.5v-960q0-119 84.5-203.5t203.5-84.5h960q119 0 203.5 84.5t84.5 203.5z" />
+
+                <metadata>
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <rdf:Description about="https://iconscout.com/legal#licenses"
+                            dc:title="Github, Online, Project, Hosting, Square"
+                            dc:description="Github, Online, Project, Hosting, Square" dc:publisher="Iconscout"
+                            dc:date="2016-12-14" dc:format="image/svg+xml" dc:language="en">
+                            <dc:creator>
+                                <rdf:Bag>
+                                    <rdf:li>Font Awesome</rdf:li>
+                                </rdf:Bag>
+                            </dc:creator>
+                        </rdf:Description>
+                    </rdf:RDF>
+                </metadata>
+            </svg>
+        </a>
+    </span>
+    
+
+    
+    <span class="px-1">
+        <a href="https://www.linkedin.com/in/ziming-wang-3b165025a/" aria-label="linkedin">
+            <svg xmlns="http://www.w3.org/2000/svg" width='2.4em' height='2.4em' fill="#fff" aria-label="LinkedIn"
+                viewBox="0 0 512 512">
+                <rect width="512" height="512" fill="#0077b5" rx="15%" />
+                <circle cx="142" cy="138" r="37" />
+                <path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198" />
+                <path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32" />
+            </svg>
+        </a>
+    </span>
+    
+
+    
+
+    
+
+    
+</div>
+
+
+<br>
+<br>
+<br>
+<br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+<script>
+    if (document.body.className.includes("light")) {
+        document.body.classList.add('dark');
+        localStorage.setItem("pref-theme", 'dark');
+    }
+</script>
+
+
+    <script src="/js/search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  <section id="search-content" class="py-2">
+    <div class="container" id="search-results"></div>
+  </section>
+</body>
+
+</html>

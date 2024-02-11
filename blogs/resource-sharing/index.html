@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
-<link rel="icon" href=/fav.png type="image/gif">
+
 
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
 
 
 <meta property="og:title" content="Good Tech Tutorials/Blogs/Sites" />
-<meta property="og:description" content="Some good tutorials/articles/blogs that I found useful in my study and programming." />
+<meta property="og:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/blogs/resource-sharing/" /><meta property="article:section" content="blogs" />
 <meta property="article:published_time" content="2023-11-13T00:00:00+05:30" />
@@ -37,7 +37,7 @@
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Good Tech Tutorials/Blogs/Sites"/>
-<meta name="twitter:description" content="Some good tutorials/articles/blogs that I found useful in my study and programming."/>
+<meta name="twitter:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming."/>
 
 
 <link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
@@ -78,19 +78,18 @@
     }
 
     body::-webkit-scrollbar {
-        width: .5em;
-        height: .5em;
+        height: 0px;
+        width: 8px;
         background-color: var(--background-color);
     }
     
     ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px var(--background-color);
         border-radius: 1rem;
     }
     
     ::-webkit-scrollbar-thumb {
         border-radius: 1rem;
-        background-color: var(--secondary-color);
+        background: #b0b0b0;
         outline: 1px solid var(--background-color);
     }
 
@@ -101,11 +100,11 @@
     }
 </style>
 
-<meta name="description" content="Some good tutorials/articles/blogs that I found useful in my study and programming.">
+<meta name="description" content="">
 <link rel="stylesheet" href="/css/single.css">
 
 
-<script defer src="/fontawesome-5/all-5.15.4.js"></script>
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
 
   <title>
 Good Tech Tutorials/Blogs/Sites | Ziming Wang
@@ -137,11 +136,14 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
 
 
 
-<header>
+
+
+<header id="profileHeader">
     <nav class="pt-3 navbar navbar-expand-lg animate">
         <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
             
             <a class="navbar-brand primary-font text-wrap" href="/">
+                
                 
                 Ziming&#39;s Portfolio
                 
@@ -226,28 +228,6 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
                     
 
                     
-                    <li class="nav-item navbar-text">
-                        
-                        <div class="text-center">
-                            <button id="theme-toggle">
-                                <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                </svg>
-                                <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                    
 
                 </ul>
 
@@ -277,13 +257,11 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
           </div>
           
           <div class="featured-image">
-            <img class="img-fluid mx-auto d-block" src="/post.jpg" alt="Good Tech Tutorials/Blogs/Sites">
+            <img class="img-fluid mx-auto d-block" src="/post-default.jpg" alt="Good Tech Tutorials/Blogs/Sites">
           </div>
           
           <article class="page-content  p-2">
-          <p><em>Last Edit: 2023-11-15</em></p>
-<br>
-<p>Here are some good tutorials/articles/blogs that I found useful in my study and programming.</p>
+          <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
 <h2 id="backend">Backend</h2>
 <p><strong><a href="https://www.youtube.com/watch?v=2PPSXonhIck">[Tutorial]</a></strong> <a href="https://github.com/alex996/presentations/blob/master/auth.md">[Notes]</a> Authentication on the web. JWT, session, cookie, XSS, CSRF&hellip;</p>
 <p><strong><a href="https://www.youtube.com/watch?v=7hZXBrI2TjY&amp;list=PL5aURjJ6mdUecuFvHqay0xZ0iN9SOe5nE&amp;index=3">[Tutorial]</a></strong> System Design Interview with AWS. Design Youtube, Whatsapp, Twitter.</p>
@@ -310,19 +288,27 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
 <p><strong><a href="https://inst.eecs.berkeley.edu/~cs188/sp23/">[COURSE]</a></strong> Berkeley&rsquo;s <em>Artificial Intelligence</em> course.</p>
 <br>
 <h2 id="distributed-systems">Distributed Systems</h2>
-<p><strong><a href="https://pdos.csail.mit.edu/6.824/schedule.html">[COURSE]</a></strong> MIT&rsquo;s <em>Distributed Systems</em>. Most reputable yet challenging Distributed System course. It introduces a new middleware technology every module. But it heavily depends on your self-learning skills, as you need to read the original papers before watching the lectures. If you also feel sad taking Unimelb&rsquo;s ill-designed trash course COMP90015 (Distributed Systems) that 40% of the contents overlap with COMP30023, 60% of the contents are too high-level and old AF, then consider self-studying this. Or you can use the syllabus here as a guide and watch other tutorials.</p>
+<p><strong><a href="https://pdos.csail.mit.edu/6.824/schedule.html">[COURSE]</a></strong> MIT&rsquo;s <em>Distributed Systems</em>. Most reputable yet challenging Distributed System course. It introduces many userful middlwares and technologies. But it heavily depends on your self-learning skills, as you need to read the original papers before watching the lectures. If you also feel sad taking Unimelb&rsquo;s ill-designed trash course COMP90015 (Distributed Systems) that 40% of the contents overlap with COMP30023, 60% of the contents are too high-level and old AF, then consider self-studying this. Or you can use the syllabus here as a guide and watch other tutorials.</p>
+<p><strong><a href="https://www.youtube.com/watch?v=UEAMfLPZZhE&amp;list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB&amp;index=1">[COURSE]</a></strong> University of Cambridge&rsquo;s <em>Distributed System</em>. This one focuses more on the algorithms and theories instead of tools. It is similar to Unimelb&rsquo;s <em>Distributed Algorithms</em> subject.</p>
 <br>
 <h2 id="cryptography">Cryptography</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=z9bTzjy4SCg">[TUTORIAL]</a></strong> Tutorial for finite field (Galois field). This channel also has many good math tutorials. This video is especially helpful if you are a Unimelb student taking COMP90043 (Crytography and Security) - The subject content on the finite field part is so ill-designed. The lecture slides are nothing but a stacking of formula with no connections. Plus if your lecturer is Udaya then&hellip; (Other than these, the subject is pretty good)</p>
-<p><strong><a href="https://www.youtube.com/playlist?list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII">[COURSE]</a></strong> <em>Crytography and Network Security</em> full course. Might be helpful to your COMP90043 study. But I find the suggested textbook (<em>Crytography and Network Security - William Stallings</em>) more useful for this subject. The subject syllabus follows the textbook exactly so if you didn&rsquo;t understand anything just refer to the textbook.</p>
+<p><strong><a href="https://www.youtube.com/watch?v=z9bTzjy4SCg">[TUTORIAL]</a></strong> Tutorial for finite field (Galois field). This channel also has many good math tutorials. This video is especially helpful if you are a Unimelb student taking COMP90043 (Crytography and Security) - The subject content on the finite field part is so ill-designed. The lecture slides are stackings of formulas with no explanation. Plus if your lecturer is Udaya then&hellip;good luck&hellip; (Other than these, the subject is pretty good)</p>
+<p><strong><a href="https://www.youtube.com/playlist?list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII">[COURSE]</a></strong> <em>Crytography and Network Security</em> full course. Might be helpful to your COMP90043 study. But I personally find the suggested textbook (<em>Crytography and Network Security - William Stallings</em>) more useful for this subject. The subject syllabus follows the textbook exactly so if you don&rsquo;t understand anything just refer to the textbook.</p>
 <br>
+<h2 id="cs-self-learning--roadmap">CS Self-Learning  RoadMap</h2>
+<p><strong><a href="https://csdiy.wiki/en/">[RoadMap]</a></strong> CS self-learning roadmap.</p>
+<p><strong><a href="https://roadmap.sh/">[RoadMap]</a></strong> Developer self-learning roadmap. E.g. backend developer, frontend developer, game developer&hellip;</p>
+<br>
+<h2 id="fun-stuff">Fun Stuff</h2>
+<p><strong><a href="https://www.youtube.com/watch?v=_3loq22TxSc">[Video]</a> <a href="https://www.youtube.com/watch?v=sdkxWqsk17c&amp;t=0s">[Video]</a></strong> Programming with Microsoft PowerPoint. Building a Turning Machine with it. 😧
+<br></p>
 <br>
 
           </article>
         </div>
       </div>
       <div class="col-sm-12 col-md-12 col-lg-3">
-        <div class="sticky-sidebar">
+        <div id="stickySideBar" class="sticky-sidebar">
           
           <aside class="toc">
               <h5>
@@ -337,6 +323,8 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
     <li><a href="#artifical-intelligence-the-subject">Artifical Intelligence (The subject)</a></li>
     <li><a href="#distributed-systems">Distributed Systems</a></li>
     <li><a href="#cryptography">Cryptography</a></li>
+    <li><a href="#cs-self-learning--roadmap">CS Self-Learning  RoadMap</a></li>
+    <li><a href="#fun-stuff">Fun Stuff</a></li>
   </ul>
 </nav>
               </div>
@@ -411,6 +399,17 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }
+
+  
+  let stickySideBarElem = document.getElementById("stickySideBar");
+  let stickyNavBar =  false ;
+  if(stickyNavBar) {
+    let headerElem = document.getElementById("profileHeader");
+    let headerHeight = headerElem.offsetHeight + 15;
+    stickySideBarElem.style.top = headerHeight + "px";
+  } else {
+    stickySideBarElem.style.top = "50px";
+  }
 </script>
 
 
@@ -434,8 +433,32 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
             <div class="card h-100">
                 
                 <div class="card-header">
+                    <a href="/blogs/deploy-elk-ubuntu/">
+                        <img src="/elk.jpg" class="card-img-top" alt="Deploy ELK Stack on a Remote Ubuntu VM">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/deploy-elk-ubuntu/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Deploy ELK Stack on a Remote Ubuntu VM">Deploy ELK Stack on a Remote Ubuntu VM</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">February 8, 2024</span>
+                    <a href="/blogs/deploy-elk-ubuntu/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
                     <a href="/blogs/resource-sharing/">
-                        <img src="/post.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
+                        <img src="/post-default.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
                     </a>
                 </div>
                 
@@ -444,7 +467,7 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
                         <h5 class="card-title bg-transparent" title="Good Tech Tutorials/Blogs/Sites">Good Tech Tutorials/Blogs/Sites</h5>
                     </a>
                     <div class="card-text secondary-font">
-                        <p>Some good tutorials/articles/blogs that I found useful in my study and programming.</p>
+                        <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
                     </div>
                 </div>
                 <div class="mt-auto card-footer">
@@ -506,29 +529,16 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
     
 </div>
 
-<br><br><br><br><br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+
+<br>
+<br>
+<br>
+<br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
 <script>
     if (document.body.className.includes("light")) {
         document.body.classList.add('dark');
         localStorage.setItem("pref-theme", 'dark');
     }
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        if (document.body.className.includes("dark")) {
-            document.body.classList.remove('dark');
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            document.body.classList.add('dark');
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
-
 </script>
 
 

@@ -6,18 +6,23 @@
     <description>Recent content on Ziming Wang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Nov 2023 00:00:00 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Feb 2024 00:00:00 +0530</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Deploy ELK Stack on a Remote Ubuntu VM</title>
+      <link>/blogs/deploy-elk-ubuntu/</link>
+      <pubDate>Thu, 08 Feb 2024 00:00:00 +0530</pubDate>
+      
+      <guid>/blogs/deploy-elk-ubuntu/</guid>
+      <description>Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM</description>
+    </item>
+    
     <item>
       <title>Good Tech Tutorials/Blogs/Sites</title>
       <link>/blogs/resource-sharing/</link>
       <pubDate>Mon, 13 Nov 2023 00:00:00 +0530</pubDate>
       
       <guid>/blogs/resource-sharing/</guid>
-      <description>Last Edit: 2023-11-15
-Here are some good tutorials/articles/blogs that I found useful in my study and programming.
-Backend [Tutorial] [Notes] Authentication on the web. JWT, session, cookie, XSS, CSRF&amp;hellip;
-[Tutorial] System Design Interview with AWS. Design Youtube, Whatsapp, Twitter.
-[SITE] Full stack web dev reference site. It has code example for any combo you want, e.g. Springboot+React, Django+Vue&amp;hellip; Not comprehensive tutorials but definitely sufficient to create a runnable tech stack rapidly for testing purposes.</description>
+      <description>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</description>
     </item>
     
   </channel>
