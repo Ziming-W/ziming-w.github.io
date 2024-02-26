@@ -480,13 +480,12 @@ Deploy ELK Stack on a Remote Ubuntu VM | Ziming Wang
 <br>
 <br>
 <h2 id="what-next-for-a-better-set-up">What Next for a better set up?</h2>
-<p>It might not be the best suggestions, just some of my thoughts.</p>
+<p>Some of my thoughts.</p>
 <ul>
 <li>!!! Add more ES nodes and form a cluster to handle high concurrency</li>
-<li>Have a valid SSL certificate in ElasticSearch and Kibana if you want to keep them exposed</li>
-<li>Exposing everything/setting up https for all is too bad? =&gt; Reverse proxy!</li>
+<li>Have a valid SSL certificate</li>
+<li>Use Nginx as reverse proxy and handle all SSL. Hide ES and Kibana.</li>
 <li>Optimize security settings</li>
-<li>Distribute these applications to different machines</li>
 <li>etc&hellip;</li>
 </ul>
 <br>
@@ -568,17 +567,15 @@ Deploy ELK Stack on a Remote Ubuntu VM | Ziming Wang
             <h5>Tags</h5>
             <ul class="tags-ul list-unstyled list-inline">
               
-              <li class="list-inline-item"><a href="/tags/elasticsearch" target="_blank">ElasticSearch</a></li>
+              <li class="list-inline-item"><a href="/tags/elasticsearch" target="_blank">elasticsearch</a></li>
               
-              <li class="list-inline-item"><a href="/tags/kibana" target="_blank">Kibana</a></li>
+              <li class="list-inline-item"><a href="/tags/kibana" target="_blank">kibana</a></li>
               
-              <li class="list-inline-item"><a href="/tags/logstash" target="_blank">Logstash</a></li>
+              <li class="list-inline-item"><a href="/tags/logstash" target="_blank">logstash</a></li>
               
-              <li class="list-inline-item"><a href="/tags/ubuntu" target="_blank">Ubuntu</a></li>
+              <li class="list-inline-item"><a href="/tags/ubuntu" target="_blank">ubuntu</a></li>
               
-              <li class="list-inline-item"><a href="/tags/linux-admin" target="_blank">Linux Admin</a></li>
-              
-              <li class="list-inline-item"><a href="/tags/postgresql" target="_blank">PostgreSQL</a></li>
+              <li class="list-inline-item"><a href="/tags/postgresql" target="_blank">postgresql</a></li>
               
             </ul>
           </aside>
@@ -611,8 +608,26 @@ Deploy ELK Stack on a Remote Ubuntu VM | Ziming Wang
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       </div>
+      <div class="col-sm-12 col-md-12 col-lg-9 p-4">
+        <script src="https://giscus.app/client.js"
+        data-repo="Ziming-W/my-site-giscus"
+        data-repo-id="R_kgDOLYOljg"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOLYOljs4Cdh_k"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+      </script>
+      </div>
     </div>
   </div>
+  
   <button class="p-2 px-3" onclick="topFunction()" id="topScroll">
     <i class="fas fa-angle-up"></i>
   </button>
