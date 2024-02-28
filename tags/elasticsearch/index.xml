@@ -6,7 +6,16 @@
     <description>Recent content in elasticsearch on Ziming Wang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 08 Feb 2024 00:00:00 +0530</lastBuildDate><atom:link href="/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Feb 2024 00:00:00 +0530</lastBuildDate><atom:link href="/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Middlewares for Data Syncing between ElasticSearch and PostgreSQL</title>
+      <link>/blogs/middlewares-es-sql/</link>
+      <pubDate>Wed, 28 Feb 2024 00:00:00 +0530</pubDate>
+      
+      <guid>/blogs/middlewares-es-sql/</guid>
+      <description>PGSync, Logstash, and Elastic-Connector: pros and cons based on my experiments. Plus other data syncing options</description>
+    </item>
+    
     <item>
       <title>Deploy ELK Stack on a Remote Ubuntu VM</title>
       <link>/blogs/deploy-elk-ubuntu/</link>

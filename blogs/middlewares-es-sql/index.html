@@ -28,16 +28,16 @@
 
 
 
-<meta property="og:title" content="Good Tech Tutorials/Blogs/Sites" />
-<meta property="og:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming." />
+<meta property="og:title" content="Middlewares for Data Syncing between ElasticSearch and PostgreSQL" />
+<meta property="og:description" content="PGSync, Logstash, and Elastic-Connector: pros and cons based on my experiments. Plus other data syncing options" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/blogs/resource-sharing/" /><meta property="article:section" content="blogs" />
-<meta property="article:published_time" content="2023-11-13T00:00:00+05:30" />
-<meta property="article:modified_time" content="2023-11-13T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
+<meta property="og:url" content="/blogs/middlewares-es-sql/" /><meta property="article:section" content="blogs" />
+<meta property="article:published_time" content="2024-02-28T00:00:00+05:30" />
+<meta property="article:modified_time" content="2024-02-28T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Good Tech Tutorials/Blogs/Sites"/>
-<meta name="twitter:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming."/>
+<meta name="twitter:title" content="Middlewares for Data Syncing between ElasticSearch and PostgreSQL"/>
+<meta name="twitter:description" content="PGSync, Logstash, and Elastic-Connector: pros and cons based on my experiments. Plus other data syncing options"/>
 
 
 <link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
@@ -107,7 +107,7 @@
 <script defer src="/fontawesome-6/all-6.4.2.js"></script>
 
   <title>
-Good Tech Tutorials/Blogs/Sites | Ziming Wang
+Middlewares for Data Syncing between ElasticSearch and PostgreSQL | Ziming Wang
 
   </title>
 </head>
@@ -242,11 +242,11 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
       <div class="col-sm-12 col-md-12 col-lg-9">
         <div class="pr-lg-4">
           <div class="title mb-5">
-            <h1 class="text-center mb-4">Good Tech Tutorials/Blogs/Sites</h1>
+            <h1 class="text-center mb-4">Middlewares for Data Syncing between ElasticSearch and PostgreSQL</h1>
             <div class="text-center">
               Ziming Wang 
               <small>|</small>
-              Nov 13, 2023
+              Feb 28, 2024
 
               
               <span id="readingTime">
@@ -257,52 +257,138 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
           </div>
           
           <div class="featured-image">
-            <img class="img-fluid mx-auto d-block" src="/post-default.jpg" alt="Good Tech Tutorials/Blogs/Sites">
+            <img class="img-fluid mx-auto d-block" src="/elk.jpg" alt="Middlewares for Data Syncing between ElasticSearch and PostgreSQL">
           </div>
           
           <article class="page-content  p-2">
-          <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
-<h2 id="backend">Backend</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=2PPSXonhIck">[Tutorial]</a></strong> <a href="https://github.com/alex996/presentations/blob/master/auth.md">[Notes]</a> Authentication on the web. JWT, session, cookie, XSS, CSRF&hellip;</p>
-<p><strong><a href="https://www.youtube.com/watch?v=7hZXBrI2TjY&amp;list=PL5aURjJ6mdUecuFvHqay0xZ0iN9SOe5nE&amp;index=3">[Tutorial]</a></strong> System Design Interview with AWS. Design Youtube, Whatsapp, Twitter.</p>
-<p><strong><a href="https://www.bezkoder.com/">[SITE]</a></strong> Full stack web dev reference site. It has code example for any combo you want, e.g. Springboot+React, Django+Vue&hellip; Not comprehensive tutorials but definitely sufficient to create a runnable tech stack rapidly for testing purposes.</p>
-<p><strong><a href="https://www.freecodecamp.org/news/what-exactly-is-client-side-rendering-and-hows-it-different-from-server-side-rendering-bd5c786b340d/">[ARTICLE]</a></strong> Client-side rendering VS server-side rendering</p>
+          <h2 id="purpose"><strong>Purpose</strong></h2>
+<p>I was tasked to build a <u>data synchronization pipeline</u> between ElasticSearch and PostgreSQL, in order to incrementally sync search data into ES. I didn&rsquo;t want to handcraft too much so I looked into three existing middlewares: PGSync, Logstash+JDBC, and Elastic-Connector. This blog will discuss their pros and cons based on my actual experiments. Besides, in the last section, I will discuss other options to sync data and why I didn&rsquo;t consider them.</p>
+<p>The conclusion is that</p>
+<ul>
+<li><code>Logstash+JDBC</code> is the best choice for my specific use cases despite it has some disadvantages.</li>
+<li><code>PGSync</code> is pretty good middleware. But it has a bug. It also offers less flexibility and customization in terms of table relations.</li>
+<li><code>Elastic-Connector</code> for PostgreSQL is trash unless you only need very basic functionalities. It is more like a open-source framework for ppl to build own connectors on it.</li>
+<li>Refer to last section for why I didn&rsquo;t consider other options.</li>
+</ul>
 <br>
-<h2 id="machine-learningdata">Machine Learning/Data</h2>
-<p><strong>[<a href="https://blog.insightdatascience.com/bias-variance-tradeoff-explained-fa2bc28174c4">ARTICLE</a>]</strong> An in-depth explanation about bias and variance.</p>
-<p><strong>[<a href="https://www.jeremyjordan.me/batch-normalization/">ARTICLE</a>]</strong> Importance of normalising data in neural networks. </p>
-<p><strong><a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=1">[TUTORIAL]</a></strong> The best series of introductory videos for neural networks. Mainly talked about MLP.</p>
-<p><strong>[<a href="https://www.youtube.com/@firstprinciplesofcomputerv3258">COURSE</a>]</strong> University of Columbia&rsquo;s full <em>Computer Vision</em> course. Exceptionally well structured and delivered. Legendary professor.</p>
-<p><strong>[<a href="https://distill.pub/2017/feature-visualization/">ARTICLE</a>]</strong> Feature visualization and how convolutional neural network learns</p>
-<p><strong>[<a href="https://convnetplayground.fastforwardlabs.com/#/models">SITE</a>]</strong> A pre-trained CNN playground. You can use different pre-trained CNN as feature extractors. Then use extracted embeddings to perform Sementic Search - find another similar image within a dataset. There are many adjustable parameters, including datasets, pre-trained CNN, which layer you want to use, and distance metrics. Pretty fun to play around.</p>
 <br>
-<h2 id="computer-networks">Computer Networks</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=ZMcmspNpkOw&amp;list=PLMLm7-g0V0kdRIhd-qOtDSfG1tNAaQCBz&amp;index=1&amp;t=10s">[TUTORIAL]</a></strong> Computer network tutorials. I like his presentation style.</p>
-<p><strong><a href="https://github.com/alex/what-happens-when">[ARTICLE]</a></strong> What happens when you access a website? Explain all OSI layers&rsquo; behaviour from the physical layer to the application layer.</p>
-<p><strong><a href="https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/">[SITE]</a></strong> Visualise and let you play with TCP&rsquo;s retransmission. Helpful to the exam.</p>
+<h2 id="what-i-need"><strong>What I need</strong></h2>
+<p>I need two important features:</p>
+<ol>
+<li>The middleware should be capable to <u>incrementally transforms and transfers data</u> between ES and SQL. Some middlewares (e.g. some functionalities of Elastic-Connector) only support full-sync. Full-sync means sync everything by overriding the whole old ES index with the new one.</li>
+<li>The middleware should be able to perform <u>complex data transformations</u>. Most importantly, nest/de-normalize SQL tables. This means nesting some child SQL tables into parent tables to make up a big JSON to store in ES.</li>
+</ol>
+<p>I don&rsquo;t need exact real-time syncing for new changes. So syncing in intervals (e.g. every 20 seconds) is acceptable.</p>
 <br>
-<h2 id="artifical-intelligence-the-subject">Artifical Intelligence (The subject)</h2>
-<p>The Artificial Intelligence University subject (not AI in general sense). E.g. search algorithms, game agent, CSP, bayesian net&hellip;</p>
-<p><strong><a href="https://www.youtube.com/watch?v=UXW2yZndl7U&amp;list=PL2bg-mBy9Lqi7Q14cOqOK7zVvR6Jfk4nA&amp;index=4">[TUTORIAL]</a></strong> This professor is truly a legend. Helped me so much for the exam. You can find step-by-step demo for all search algorithms, MCTS and constrain-satisfication.</p>
-<p><strong><a href="https://raphsilva.github.io/utilities/minimax_simulator/#">[SITE]</a></strong> Minimax and alpha-beta pruning simulator. For the exam purpose, randomly make some trees by yourself and perform the pruning and backpropagations to practice.</p>
-<p><strong><a href="https://inst.eecs.berkeley.edu/~cs188/sp23/">[COURSE]</a></strong> Berkeley&rsquo;s <em>Artificial Intelligence</em> course.</p>
 <br>
-<h2 id="distributed-systems">Distributed Systems</h2>
-<p><strong><a href="https://pdos.csail.mit.edu/6.824/schedule.html">[COURSE]</a></strong> MIT&rsquo;s <em>Distributed Systems</em>. Most reputable yet challenging Distributed System course. It introduces many userful middlwares and technologies. But it heavily depends on your self-learning skills, as you need to read the original papers before watching the lectures. If you also feel sad taking Unimelb&rsquo;s ill-designed trash course COMP90015 (Distributed Systems) that 40% of the contents overlap with COMP30023, 60% of the contents are too high-level and old AF, then consider self-studying this. Or you can use the syllabus here as a guide and watch other tutorials.</p>
-<p><strong><a href="https://www.youtube.com/watch?v=UEAMfLPZZhE&amp;list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB&amp;index=1">[COURSE]</a></strong> University of Cambridge&rsquo;s <em>Distributed System</em>. This one focuses more on the algorithms and theories instead of tools. It is similar to Unimelb&rsquo;s <em>Distributed Algorithms</em> subject.</p>
+<h2 id="pgsync-vs-logstash"><strong>PGSync VS Logstash</strong></h2>
+<p>Logstash is the most popular and widely-used middleware. It is developed and officially supported by ES team. However, I was initially attracted by PGSync  and decided to give it a try. It has many advantages over Logstash.</p>
+<p>Logstash works by <code>using SQL to query database</code>, extract changed data, then transform and send data to ElasticSearch. Instead, PGSync utilizes <code>logical decoding</code> feature of PostgreSQL and captures the change through the transaction logs. It doesn&rsquo;t query database directly.</p>
+<p>This yields several advantages:</p>
+<table>
+<thead>
+<tr>
+<th>Key points</th>
+<th>Logstash</th>
+<th>PGSync</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Impact on DB</td>
+<td>High, since it queries DB directly using SQL</td>
+<td>✔️ Low, it passively captures data through logs</td>
+</tr>
+<tr>
+<td>&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;&mdash;-</td>
+</tr>
+<tr>
+<td>Tracking Column</td>
+<td>Needed, Logstash uses it to check for changes. A timestamp is often used. All tables to be synced need to have this column. And they need to be updated when changes happen</td>
+<td>✔️ Not needed</td>
+</tr>
+<tr>
+<td>&mdash;&mdash;&mdash;&mdash;&ndash;</td>
+<td>&mdash;&mdash;&mdash;&mdash;-</td>
+<td>&mdash;&mdash;&mdash;&mdash;-</td>
+</tr>
+<tr>
+<td>Deletion</td>
+<td><ul><li>We have to use soft deletion. Make <code>is_deleted:Boolean</code> column false when deleting. This is because if you hard delete a record, Logstash won&rsquo;t know about it since it can&rsquo;t see the tracking column any more. Unless extra efforts are made to ensure hard deletion consistency. </li> <li> [Extra] However, in some cases soft deletion is the preferred approach for main DB anyway. <ul><li>For example, recovery user data if he accidentally deleted something. Plus other similar reasons. </li> <li> Besides, some articles mentioned massive hard deletion might make database index <code>fragmented</code> (altho this is not the only cause) and affect performance. And if it gets too bad, the index should be reorganized or rebuilt. I did some readings on this topic. It doesn&rsquo;t seem like it is a big problem for normal use cases. Check out <a href="https://www.percona.com/blog/the-impacts-of-fragmentation-in-mysql/">[<u>this blog</u>]</a> on InnoDB engine</li> <li>The fun thing is I have literally came across two articles, the first one is &ldquo;why you should do soft deletion&rdquo;. The second one is &ldquo;why soft deletion is bad&rdquo;.😂 So I guess &ldquo;soft deletion or not&rdquo; is a case-by-case decision making.</li> </ul> </li></ul></td>
+<td>✔️ Can achieve hard/soft deletion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pgsync-300"><strong>PGSync (3.0.0)</strong></h2>
+<h3 id="a-bug">A Bug</h3>
+<p>I gave PGSync a try. One thing I gotta complain is the documentation is very broken and hard to understand. It is  made by a single developer, and has a small community.</p>
+<p>The version I used is 3.0.0. The syncing for a single table works pretty smooth. However, I encountered a bug when testing nested relationship. Incremental CREATE operation to child tables in a nested relationship won&rsquo;t be reflected to ES. For example, suppose we nest <code>Review</code> tables inside <code>Movie</code> table. During the initial full-sync, everything works fine. However, in the subsequent syncing stages, creating a new <code>Review</code> table won&rsquo;t be synced to ES.</p>
+<p>I found a similar issue (<a href="https://github.com/toluaina/pgsync/pull/493">https://github.com/toluaina/pgsync/pull/493</a>) raised. But his pull request doesn&rsquo;t seem to fix the problem.</p>
+<p>Here is a table summarized what works and what doesn&rsquo;t, CUD stands for create/update/delete</p>
+<table>
+<thead>
+<tr>
+<th>&mdash;&mdash;&mdash;&mdash;&ndash;</th>
+<th>Single Table</th>
+<th>Parent-Child table nesting</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Will full-sync capture everything?</td>
+<td>YES</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Will incremental CUD operation be captured and reflected to ES?</td>
+<td>YES</td>
+<td>if the CUD is made on parent table, YES; if UPDATE/DELETE is made on child table, YES; If the CREATE is made on child table. NO.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="walk-around">Walk-around</h3>
+<p>There is a walk-around to this issue. The primary issue lies in the fact that CREATE operations on the child table do not get properly reflected in ES. However, if we create a child table and then subsequently update an irrelevant field in parent table, all changes will be captured and synced to ES. This can solve the problem.</p>
+<h3 id="low-customization">Low customization</h3>
+<p>However, I soon realize another issue - the customization options are pretty limited. Our project is using generic foreign key to build relationships between some tables. Such relationship can&rsquo;t be specified in PGSync&rsquo;s descriptive JSON file. It is quite user-friendly but not as powerful as raw SQL, especially in terms of customizing relationships.</p>
 <br>
-<h2 id="cryptography">Cryptography</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=z9bTzjy4SCg">[TUTORIAL]</a></strong> Tutorial for finite field (Galois field). This channel also has many good math tutorials. This video is especially helpful if you are a Unimelb student taking COMP90043 (Crytography and Security) - The subject content on the finite field part is so ill-designed. The lecture slides are stackings of formulas with no explanation. Plus if your lecturer is Udaya then&hellip;good luck&hellip; (Other than these, the subject is pretty good)</p>
-<p><strong><a href="https://www.youtube.com/playlist?list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII">[COURSE]</a></strong> <em>Crytography and Network Security</em> full course. Might be helpful to your COMP90043 study. But I personally find the suggested textbook (<em>Crytography and Network Security - William Stallings</em>) more useful for this subject. The subject syllabus follows the textbook exactly so if you don&rsquo;t understand anything just refer to the textbook.</p>
 <br>
-<h2 id="cs-self-learning--roadmap">CS Self-Learning  RoadMap</h2>
-<p><strong><a href="https://csdiy.wiki/en/">[RoadMap]</a></strong> CS self-learning roadmap.</p>
-<p><strong><a href="https://roadmap.sh/">[RoadMap]</a></strong> Developer self-learning roadmap. E.g. backend developer, frontend developer, game developer&hellip;</p>
+<h2 id="logstash--jdbc"><strong>Logstash + JDBC</strong></h2>
+<p>Now, gotta go with Logstash. It has a big community and a lot of useful articles.</p>
+<p>Those cons I mentioned earlier still hold. They caused some efforts to modify DB table and backend server logic to incorporate tracking column and soft deletion. But anyway I am happy with the strong customization capability provided by SQL and logstash&rsquo;s internal filters.</p>
 <br>
-<h2 id="fun-stuff">Fun Stuff</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=_3loq22TxSc">[Video]</a> <a href="https://www.youtube.com/watch?v=sdkxWqsk17c&amp;t=0s">[Video]</a></strong> Programming with Microsoft PowerPoint. Building a Turning Machine with it. 😧
-<br></p>
 <br>
+<h2 id="elastic-connector"><strong>Elastic-Connector</strong></h2>
+<p><a href="https://www.elastic.co/guide/en/enterprise-search/current/postgresql-connector-client-tutorial.html"><u>Official guide on PostgreSQL-ES using connector</u></a></p>
+<p><a href="https://github.com/elastic/connectors/blob/8.11/docs/DOCKER.md"><u>General guide on how to run a connector in Docker</u></a></p>
+<p>I also tried Elastic-Connector. After connecting ES to a connector, I can view it directly in Kibana GUI to schedule jobs and set up sync rules. This sounds pretty appealing to me.</p>
+<p>It is a pretty new middleware, and has literally 0 community resources. I only knew this middleware because it has top ranking on Google&rsquo;s search result&hellip;That was how it tricked me&hellip; 😭</p>
+<h3 id="problems">Problems</h3>
+<p>It took me a long time to even set up a connector. Due to the lack of community resource, sometimes I gotta check the source code of it to debug.</p>
+<ul>
+<li>For example, it doesn&rsquo;t even have a configuration option to disable SSL certification validation during the initial set up stages. I need to manually modify the source code to disable it and I hate doing this. Probably because this middleware is primarily made for native Elastic Cloud deployment&hellip;</li>
+</ul>
+<p>After I got everything working, I tested with some dummy data. There are &ldquo;basic sync rules&rdquo; and &ldquo;advanced sync rules&rdquo;.</p>
+<ul>
+<li>Basic sync rules will work for both <code>incremental sync</code> and <code>full sync</code>. While advance sync rule only works for <code>full sync</code>.</li>
+<li>Basic sync rules contain some very basic matching conditions.</li>
+<li>The &ldquo;table nesting&rdquo; I want is within the advanced rule for PostgreSQL connector <a href="https://www.elastic.co/guide/en/enterprise-search/current/connectors-postgresql.html#:~:text=that%20Elastic%20Deployment.-,Sync%20rules,-Basic%20sync%20rules"><u>Link</u></a>.</li>
+</ul>
+<p>It is definitely not capable for my use cases. I don&rsquo;t see any advantage of using this one instead of Logstash. Probably the only good thing is it has GUI integration inside Kibana.</p>
+<br>
+<br>
+<h2 id="other-options"><strong>Other options!!!</strong></h2>
+<p>Some other doable options:</p>
+<ul>
+<li><strong>PostgreSQL-&gt;Debezium-&gt;Kafka-&gt;ES Connector/Logstash-&gt;ES</strong>: I didn&rsquo;t take this into consideration for our project because it seems like a resource-intensive solution, since two more middlewares as used. But it looks very interesting to me. Debezium is a CDC (change data capture) tool and also uses PostgreSQL&rsquo;s <code>logical decoding</code> feature. Plus this solution provides great flexibility, customization and stability. Maybe one day I will give it a try.</li>
+<li>Third party data ETL tools such AirByte, Estuary&hellip;</li>
+<li>In your backend, it is doable to perform create/update/delete to both the main SQL database and ES simultaneously. It is pretty flexible and customizable, but still sounds like a horrible idea to me. It is gonna mess up the backend code and performance. Imagine ES server is down, and a customer&rsquo;s &ldquo;add a comment&rdquo; request got denied because SQL query succeeded but ES query failed&hellip;</li>
+</ul>
+<br>
+<br>
+<h2 id="end">End</h2>
+<p>Thanks for reading! It is a long article and hopefully I didn&rsquo;t make any mistakes. I am not an ES expert but I indeed spent quite some time to research these stuff. Please feel free to drop a comment below if I got anything wrong.</p>
 
           </article>
         </div>
@@ -317,14 +403,24 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
               <div class="toc-content">
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#backend">Backend</a></li>
-    <li><a href="#machine-learningdata">Machine Learning/Data</a></li>
-    <li><a href="#computer-networks">Computer Networks</a></li>
-    <li><a href="#artifical-intelligence-the-subject">Artifical Intelligence (The subject)</a></li>
-    <li><a href="#distributed-systems">Distributed Systems</a></li>
-    <li><a href="#cryptography">Cryptography</a></li>
-    <li><a href="#cs-self-learning--roadmap">CS Self-Learning  RoadMap</a></li>
-    <li><a href="#fun-stuff">Fun Stuff</a></li>
+    <li><a href="#purpose"><strong>Purpose</strong></a></li>
+    <li><a href="#what-i-need"><strong>What I need</strong></a></li>
+    <li><a href="#pgsync-vs-logstash"><strong>PGSync VS Logstash</strong></a></li>
+    <li><a href="#pgsync-300"><strong>PGSync (3.0.0)</strong></a>
+      <ul>
+        <li><a href="#a-bug">A Bug</a></li>
+        <li><a href="#walk-around">Walk-around</a></li>
+        <li><a href="#low-customization">Low customization</a></li>
+      </ul>
+    </li>
+    <li><a href="#logstash--jdbc"><strong>Logstash + JDBC</strong></a></li>
+    <li><a href="#elastic-connector"><strong>Elastic-Connector</strong></a>
+      <ul>
+        <li><a href="#problems">Problems</a></li>
+      </ul>
+    </li>
+    <li><a href="#other-options"><strong>Other options!!!</strong></a></li>
+    <li><a href="#end">End</a></li>
   </ul>
 </nav>
               </div>
@@ -336,7 +432,13 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
             <h5>Tags</h5>
             <ul class="tags-ul list-unstyled list-inline">
               
-              <li class="list-inline-item"><a href="/tags/resource-sharing" target="_blank">resource-sharing</a></li>
+              <li class="list-inline-item"><a href="/tags/elasticsearch" target="_blank">elasticsearch</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/postgresql" target="_blank">postgresql</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/logstash" target="_blank">logstash</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/etl" target="_blank">ETL</a></li>
               
             </ul>
           </aside>
