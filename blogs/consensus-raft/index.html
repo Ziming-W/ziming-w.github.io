@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html>
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta http-equiv="Accept-CH" content="DPR, Viewport-Width, Width">
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      media="print" onload="this.media='all'" />
+<noscript>
+  <link
+          href="https://fonts.googleapis.com/css2?family=Alata&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+</noscript>
+
+
+<link rel="stylesheet" href="/css/font.css" media="all">
+
+
+
+<meta property="og:title" content="Distributed Consensus and Raft - A Survey" />
+<meta property="og:description" content="A research survey on distributed consensus, state machine replication, Paxos, and Raft. My project work for COMP90020 (Distributed Algorithms) at Unimelb" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blogs/consensus-raft/" /><meta property="article:section" content="blogs" />
+<meta property="article:published_time" content="2024-06-17T00:00:00+05:30" />
+<meta property="article:modified_time" content="2024-06-17T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Distributed Consensus and Raft - A Survey"/>
+<meta name="twitter:description" content="A research survey on distributed consensus, state machine replication, Paxos, and Raft. My project work for COMP90020 (Distributed Algorithms) at Unimelb"/>
+
+
+<link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
+<link rel="stylesheet" href="/css/footer.css" media="all">
+
+
+<link rel="stylesheet" href="/css/theme.css" media="all">
+
+
+
+
+<style>
+    :root {
+        --text-color: #343a40;
+        --text-secondary-color: #6c757d;
+        --background-color: #eaedf0;
+        --secondary-background-color: #64ffda1a;
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+
+         
+        --text-color-dark: #e4e6eb;
+        --text-secondary-color-dark: #b0b3b8;
+        --background-color-dark: #18191a;
+        --secondary-background-color-dark: #212529;
+        --primary-color-dark: #ffffff;
+        --secondary-color-dark: #212529;
+    }
+    body {
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: left;
+    }
+
+    html {
+        background-color: var(--background-color) !important;
+    }
+
+    body::-webkit-scrollbar {
+        height: 0px;
+        width: 8px;
+        background-color: var(--background-color);
+    }
+    
+    ::-webkit-scrollbar-track {
+        border-radius: 1rem;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        border-radius: 1rem;
+        background: #b0b0b0;
+        outline: 1px solid var(--background-color);
+    }
+
+    #search-content::-webkit-scrollbar {
+        width: .5em;
+        height: .1em;
+        background-color: var(--background-color);
+    }
+</style>
+
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/single.css">
+
+
+<script defer src="/fontawesome-6/all-6.4.2.js"></script>
+
+  <title>
+Distributed Consensus and Raft - A Survey | Ziming Wang
+
+  </title>
+</head>
+
+<body class="light">
+  
+  
+<script>
+    let localStorageValue = localStorage.getItem("pref-theme");
+    let mediaQuery = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    switch (localStorageValue) {
+        case "dark":
+            document.body.classList.add('dark');
+            break;
+        case "light":
+            document.body.classList.remove('dark');
+            break;
+        default:
+            if (mediaQuery) {
+                document.body.classList.add('dark');
+            }
+            break;
+    }
+</script>
+
+
+
+
+
+<header id="profileHeader">
+    <nav class="pt-3 navbar navbar-expand-lg animate">
+        <div class="container-fluid mx-xs-2 mx-sm-5 mx-md-5 mx-lg-5">
+            
+            <a class="navbar-brand primary-font text-wrap" href="/">
+                
+                
+                Ziming&#39;s Portfolio
+                
+            </a>
+
+            
+                <div>
+                    <input id="search" autocomplete="off" class="form-control mr-sm-2 d-none d-md-block" placeholder='Ctrl &#43; k to Search...'
+                        aria-label="Search" oninput="searchOnChange(event)">
+                </div>
+            
+
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <svg aria-hidden="true" height="24" viewBox="0 0 16 16" version="1.1" width="24" data-view-component="true">
+                    <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z"></path>
+                </svg>
+            </button>
+
+            
+            <div class="collapse navbar-collapse text-wrap primary-font" id="navbarContent">
+                <ul class="navbar-nav ms-auto text-center">
+                    
+                        <li class="nav-item navbar-text d-block d-md-none">
+                            <div class="nav-link">
+                                <input id="search" autocomplete="off" class="form-control mr-sm-2" placeholder='Ctrl &#43; k to Search...' aria-label="Search" oninput="searchOnChange(event)">
+                            </div>
+                        </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#about" aria-label="about">
+                            About Me
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#experience"
+                            aria-label="experience">
+                            Experience
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#education"
+                            aria-label="education">
+                            Education
+                        </a>
+                    </li>
+                    
+
+                    
+
+                    
+
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/#contact"
+                            aria-label="contact">
+                            Contact Me
+                        </a>
+                    </li>
+                    
+
+                    
+                    
+                    
+                    
+                    <li class="nav-item navbar-text">
+                        <a class="nav-link" href="/blogs" title="Blog posts">
+                            
+                            Blog
+                        </a>
+                    </li>
+                    
+                    
+
+                    
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<div id="content">
+<section id="single">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-12 col-md-12 col-lg-9">
+        <div class="pr-lg-4">
+          <div class="title mb-5">
+            <h1 class="text-center mb-4">Distributed Consensus and Raft - A Survey</h1>
+            <div class="text-center">
+              Ziming Wang &amp; Yihang Li 
+              <small>|</small>
+              Jun 17, 2024
+
+              
+              <span id="readingTime">
+                min read
+              </span>
+              
+            </div>
+          </div>
+          
+          <div class="featured-image">
+            <img class="img-fluid mx-auto d-block" src="/raft.jpg" alt="Distributed Consensus and Raft - A Survey">
+          </div>
+          
+          <article class="page-content  p-2">
+          <hr>
+<p>Foreword:</p>
+<ul>
+<li><strong>Origin</strong>: This work is originally part of my project work for COMP90020 (Distributed Algorithms) at the University of Melbourne. We were tasked with building a distributed application (we did a Raft key-value database inspired by MIT&rsquo;s 6.824) and wrote a research survey on distributed system problems within the same domain. In the original submission, there were sections talking about the architecture and design choices of our application. I have removed these sections in this blog as they are not relevant.</li>
+<li><strong>Level of Details</strong>: The original assignment had a strict word limit, which constrained us to mainly perform a literature review, listing significant papers and contributions in the consensus domain without going into much depth. We omitted many details to stay within the word limit. However, for this blog, if I have spare time, I plan to continously extending it to include more information.</li>
+<li><strong>Reference and Formatting Issue</strong>: The original paper was written in LaTeX and formatted with IEEE reference styles. It was a big headache to convert it to markdown and be compatible with my static site generator. As a result, the bibliography format in this blog is pretty weird and not strictly aligned to a formal reference style.</li>
+</ul>
+<hr>
+<h2 id="0---abstract">0 - Abstract</h2>
+<p>Distributed consensus is one of the foundations of fault-tolerant
+distributed systems. This paper firstly provides an overview of the
+theory foundations of distributed consensus, including the Byzantine
+Generals problem and the FLP impossibility result. It then discusses
+the Raft algorithm in depth, including its approach to leader election
+and log replication, and proposed enhancements to address limitations.
+This paper also conducts a comparative analysis of Paxos and Raft,
+focusing on their understandability, fault-tolerance and performance.</p>
+<p><strong>Keywords</strong>: Distributed Consensus, State Machine Replication, Paxos,
+Raft</p>
+<h2 id="1---consensus">1 - Consensus</h2>
+<p>Consensus is a fundamental problem in distributed systems. It refers to
+the process that members within a group collaboratively agree on some
+common decisions. Fault-tolerance is a critical factor in distributed
+systems, and consensus algorithms are expected to survive failures to
+some extent to achieve availability <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>.</p>
+<p>The paper by Pease et al. <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> published in 1980 is
+one of the pioneering works of consensus algorithms. It describes and
+formally proves the problem of interactive consistency - all correct
+processes can agree on a common vector despite the failures of some
+processes, as long as the total number of processes is more than three
+times of the number of the failure processes. Another foundation is the
+paper by Lamport et al. <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> in 1982, where the
+Byzantine Generals Problem is proposed. The original problem and its
+variations have greatly influenced the future directions of research in
+consensus and fault-tolerant distributed systems.</p>
+<p>Consensus algorithms and many relevant problems aim to satisfy three
+important properties <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>:</p>
+<ul>
+<li>Termination: The algorithm should terminate eventually and all
+correct processes should have their agreement variable set in the
+end.</li>
+<li>Agreement: All correct processes agree on the same values.</li>
+<li>Integrity (the definition could vary): If all correct processes
+start with proposing the same value v, then eventually they should
+all agree on v.</li>
+</ul>
+<h3 id="11---the-byzantine-problem-family">1.1 - The Byzantine Problem Family</h3>
+<p>The Byzantine Generals problem proposed by Lamport et al.
+<sup id="fnref1:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> in 1982 is one of the foundations of distributed
+consensus. It highlights the challenges of reaching consensus when there
+are processes exhibiting arbitrary behaviours. The original problem and
+its variations have been studied extensively and served as the
+foundations of many failure models and consensus algorithms.</p>
+<p>The original paper <sup id="fnref2:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> describes a scenario that a
+group of generals must reach a consensus decision to attack or retreat
+from a city. They can only communicate through messengers, and some of
+the generals may be traitors and thus sending false information to their
+peers to disrupt the decision-making process. The goal is to find an
+algorithm to ensure the loyal generals will reach a correct and integral
+decision despite the disruption of false information. The authors have
+proved that with unauthenticated message passing (i.e. oral messages
+through messenger), consensus can be achieved if and only if the number
+of traitors is less than one-third of the total number of generals.
+However, if authentication is applied (i.e. unforgeable messages), the
+problem is solvable regardless the number of traitors. The Byzantine
+Generals problem&rsquo;s thought process can be easily applied to the
+distributed computing settings, where the usual way of communication is
+through a channel, and the presence of faulty processes that exhibit
+arbitrary behaviours can lead to destructive damages. While a process
+can utilize authentication approaches such as digital signatures to
+verify the integrity of the messages.</p>
+<h4 id="111---variations-of-the-byzantine-generals-problem">1.1.1 - Variations of the Byzantine Generals Problem</h4>
+<p>The Byzantine Generals problem has many variations. The Byzantine
+Generals/Broadcast and Byzantine Agreement/Consensus are two closely
+related types of Byzantine problems <sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>.
+The original paper <sup id="fnref3:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup> by Lamport et al. mostly
+discussed a broadcast-based problem - there is a commander that will
+broadcast a message to all nodes. Hence, the integrity definition here
+focus on all correct nodes agreeing on the value of the commander if the
+commander is correct. While in the Byzantine agreement/consensus
+problem, there is no special commander, so the integrity holds if and
+only if all correct nodes start with a value and end with the same
+value.</p>
+<p>In addition, the 1983 paper <sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup> by Lamport discussed the Weak
+Byzantine Generals Problem. In this variation, all correct processes are
+allowed to bypass integrity requirement and agree upon on a different
+value with the general&rsquo;s initial value, when some processes fail. This
+problem could be applied in the distributed transaction scenarios, where
+all the processes should abort if some of them fail, even if the initial
+command from the commander is to commit. The paper by Dolev el al. in
+1986 <sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup> introduced another variation - Byzantine
+Generals with approximate agreement, where the processes start with
+arbitrary real values and only need to agree on an approximate value.
+The problem could be applied in practice to achieve agreements that
+don&rsquo;t require exact accuracy, such as synchronizing clocks or
+calibrating sensors.</p>
+<p>There were many more variations developed to be applied to real-word
+scenarios, taking into account of different requirements, system
+interaction models, and failure models.</p>
+<h3 id="12---the-flp-impossibility-and-system-synchrony">1.2 - The FLP Impossibility and System Synchrony</h3>
+<p>Distributed systems can be classified into two main types: synchronous
+systems and asynchronous systems <sup id="fnref1:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>. In a synchronous
+distributed system, there are bounds on process communication delay,
+drift of processes&rsquo; local clocks, and process execution time. While an
+asynchronous distributed system is the opposite and has no bounds on
+these three values.</p>
+<p>Fischer et al. <sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup> presented an important theorem in 1985, known as
+the FLP impossibility proof. The work proved that it is impossible to
+reach consensus in an asynchronous distributed system. The authors
+demonstrated that even in reliable message channels and a non-Byzantine
+failure asynchronous system, a single process&rsquo;s unpredictable stopping
+can cause any consensus algorithm to fail. Despite the fact that a
+perfect consensus algorithm doesn&rsquo;t exist in asynchronous distributed
+systems, the author argued that the conditions under which the FLP
+impossibility result holds are quite strict and rarely encountered in
+practice. In most real-world distributed systems, there are certain
+assumptions that can be made regarding the system&rsquo;s behaviour to refine
+the interaction model. Therefore, researchers began to investigate
+weaker synchrony assumptions that would still allow for the development
+of fault-tolerant consensus algorithms <sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup>.</p>
+<p>Notable researches include the 1987 paper by Dolev et al.
+<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> and the 1988 paper by Dwork et al.
+<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>. In <sup id="fnref1:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup>, the authors
+investigated 5 critical parameters including process synchrony,
+communication synchrony, message ordering synchrony, transmission type
+(broadcast/point-to-point), and the atomicity of message send/receive,
+by analysing their impact on consensus fault tolerance. They proved that
+consensus under failure is possible under several combinations of
+parameters. Building on the ideas from <sup id="fnref2:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup>, another paper
+<sup id="fnref1:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup> formally introduced the concept of partial
+synchrony and reported the effect of varying degrees of partial
+synchrony on the fault tolerance of consensus algorithms. Both of these
+papers have laid theoretical foundations for future consensus algorithms
+and refinements of weaker synchrony guarantees.</p>
+<p>Besides, Chandra and Toueg <sup id="fnref:12"><a href="#fn:12" class="footnote-ref" role="doc-noteref">12</a></sup> have proposed a
+framework that focuses on discovering the usage of failure detectors to
+augment consensus under weaker synchrony assumptions. Building upon the
+works of <sup id="fnref3:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup> and <sup id="fnref2:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup>, they
+investigated the roles of failure detectors when incorporating partial
+synchrony assumptions into the asynchronous model. By defining eight
+classes of failure detectors of different completeness and accuracy
+properties, the authors reported that consensus can be solved in weak
+synchronous systems using certain capable failure detectors.</p>
+<p>For a more practical example, the paper by Castro and Liskov
+<sup id="fnref:13"><a href="#fn:13" class="footnote-ref" role="doc-noteref">13</a></sup> in 1999 introduces a state machine replication
+algorithm know as pBFT for achieving the Byzantine fault tolerance
+(BFT). The authors indicated that previous algorithms suffered from the
+synchronous distributed system assumption, which might be vulnerable to
+various external attacks such as denial-of-service in the real-world.
+Instead, the authors circumvented the FLP impossibility theorem by
+making several weak synchrony assumptions. For example, the algorithm
+assumed that the message transmission delay won&rsquo;t grow indefinitely, so
+that the liveness of the system can be guaranteed and clients eventually
+receive responses to their requests.</p>
+<h2 id="2---state-machine-replication-and-paxos">2 - State Machine Replication and Paxos</h2>
+<h3 id="21---state-machine-replication">2.1 - State Machine Replication</h3>
+<p>Consensus algorithms have many applications, one of which is building a
+state machine replication. A state machine replication ensures that all
+nodes within a cluster maintain the same state and execute the same
+sequence of commands, thereby achieving replication. The earliest
+concept of state machine replication was proposed by Lamport
+<sup id="fnref:14"><a href="#fn:14" class="footnote-ref" role="doc-noteref">14</a></sup> in 1978. Since then, such algorithms have been
+widely adopted in many domains to improve availability and
+fault-tolerance. For example, many databases provide a replication
+cluster, where the master node coordinates the replication process and
+ensures that all replica nodes stay synchronized. In this setup, the
+cluster can handle high concurrent reads by using load balancers to
+distribute incoming requests across multiple nodes. Furthermore, if the
+master node fails, one of the replica nodes can seamlessly take over as
+the new master.</p>
+<h3 id="22---paxos">2.2 - Paxos</h3>
+<p>One of the most renown state machine replication algorithm is the Paxos
+algorithm, which was proposed by Lamport <sup id="fnref:15"><a href="#fn:15" class="footnote-ref" role="doc-noteref">15</a></sup> in 1998. The Paxos
+family of algorithms have been extensively modified and have long been
+the mainstream choice. Numerous revisions to the original Paxos have
+been proposed to address limitations and improve performance. One
+notable revision is Multi-Paxos <sup id="fnref:16"><a href="#fn:16" class="footnote-ref" role="doc-noteref">16</a></sup> which extends the
+basic Paxos algorithm to allow for the agreement on a sequence of values
+rather than just a single one to reduce overhead. Another revision is
+Fast Paxos <sup id="fnref:17"><a href="#fn:17" class="footnote-ref" role="doc-noteref">17</a></sup>, which reduces the latency by allowing
+acceptors to accept values in a single round and without prepare phase.</p>
+<h2 id="3---raft-in-depth">3 - Raft In-depth</h2>
+<h3 id="31---the-invention-of-raft">3.1 - The Invention of Raft</h3>
+<p>Although Paxos has been formally proved to be safe, an important issue
+with Paxos is its non-triviality to understand <sup id="fnref:18"><a href="#fn:18" class="footnote-ref" role="doc-noteref">18</a></sup>. There
+are many studies that have tried to simplify and explain Paxos in a more
+understandable format
+<sup id="fnref:19"><a href="#fn:19" class="footnote-ref" role="doc-noteref">19</a></sup> <sup id="fnref:20"><a href="#fn:20" class="footnote-ref" role="doc-noteref">20</a></sup> <sup id="fnref:21"><a href="#fn:21" class="footnote-ref" role="doc-noteref">21</a></sup>. The
+invention of Raft has opened another window in the field of consensus
+algorithm. Raft <sup id="fnref:22"><a href="#fn:22" class="footnote-ref" role="doc-noteref">22</a></sup> was invented by Ongaro and Ousterhout
+in 2014 to serve as an understandable alternative to Paxos and has
+gained significant popularity since.</p>
+<h3 id="32---how-raft-works">3.2 - How Raft Works</h3>
+<p>Raft breaks down the consensus problem into two sub-problems: leader
+election and log replication. Leader election aims to elect a node as
+the leader that is responsible for handling client requests,
+distributing log entries to other nodes, and deciding when to commit a
+log entry. Entries can only become persistent (saved in local storage)
+after being committed. Log replication describes how the leader
+supervises the process of distributing log entries and enforces
+consistency within the cluster. Raft, in its essential, is a state
+machine that every nodes transit between three states: Follower,
+Candidate, and Leader.</p>
+<h4 id="321---follower">3.2.1 - Follower</h4>
+<p>Nodes will always start as followers. A follower has two tasks: listen
+to the leader&rsquo;s coordination passively and start new elections to
+replace the current leader once it is down. The follower accepts new
+entries by receiving leader&rsquo;s AppendEntries RPC , which contains the
+latest log entries (could be empty if there are no logs) and other
+relevant indicators. The information is used by the follower to check if
+there are new entries waiting for it to append, or its own entries are
+out of sync. The AppendEntries RPC also acts as a heartbeat, a followers
+will reset its timer if it hears a valid heartbeat. It will transition
+to a candidate if it times out.</p>
+<h4 id="322---candidate">3.2.2 - Candidate</h4>
+<p>When a node times out, it will transition to the candidate state and
+send out RequestVote RPC including assigned random timeout to every
+node, the recipient can respond positively or negatively based on the
+following criteria: the initiator&rsquo;s term number (should be greater than
+the current term); whether it has received a vote request from another
+candidate; if the candidate&rsquo;s log is up-to-date. A candidate will
+promote itself to leader, and send out AppendEntries RPC to every other
+node to announce its leadership once it gathers positive responses from
+majority nodes.</p>
+<h4 id="323---leader">3.2.3 - Leader</h4>
+<p>The leader is responsible for handling client requests, if a non-leader
+node receives a client request, the node will ask the client to talk to
+the leader instead. The leader is also responsible for orchestrating the
+log replication. When the leader receives a new client request, it will
+append that entry to its log and distribute it to all the followers. If
+the majority of nodes own an entry, the leader will commit and tell
+others to commit up to this entry.</p>
+<h3 id="33---raft-revisions">3.3 - Raft Revisions</h3>
+<p>Although Raft is a sophisticated algorithm, its application is limited
+in environments where security and efficiency are considered crucial.</p>
+<p>Byzantine-fault-tolerance was not part of the consideration when
+designing Raft. In situations where mutual trust can not be assumed,
+adversarial or faulty nodes can compromise the entire Raft cluster
+either as followers or as leaders:</p>
+<ul>
+<li>Problem 1: In Raft&rsquo;s algorithm, any node can initiate an election,
+and a malicious node can easily lead the whole cluster into
+starvation by initiating new elections endlessly.</li>
+<li>Problem 2: Only the leader can interact with clients. A Byzantine
+leader can forge client requests and deceive other nodes, or reply
+with false information to client.</li>
+<li>Problem 3: The current leader will be demoted to a follower by
+receiving a RequestVote RPC with a higher term number. Without ways
+for nodes to verify whether an election was initiated with valid
+causes, malicious nodes can become leader by announcing incorrect
+term numbers.</li>
+</ul>
+<p>Efficiency is another potential improvement area. As the number of nodes
+increases, the communication density and the chance of split vote will
+also increase during the election stage. In the worst-case scenario, the
+cluster will never be led by any leader due to constant re-elections.
+These problems may not seem serious with fewer nodes, but they will
+bottleneck the algorithm&rsquo;s efficiency as the cluster scales up.</p>
+<h4 id="331---tangaroa-a-byzantine-fault-tolerant-raft">3.3.1 - Tangaroa: a Byzantine Fault Tolerant Raft</h4>
+<p>Designed by Copeland and Zhong <sup id="fnref:23"><a href="#fn:23" class="footnote-ref" role="doc-noteref">23</a></sup>, Tangaroa
+addresses Byzantine-fault-tolerance problems defined previously by
+leveraging digital signatures, unique identifiers, and hashing. A BFT
+Raft cluster that can tolerate \(f\) Byzantine nodes must have at least
+\(3f+1\) nodes, where each node owns the public key from client and every
+other node. The client also knows every node&rsquo;s public key. Nodes and
+clients always sign their messages with their private keys during
+communication. The recipient will discard messages without a valid
+signature. Specifically, Tangaroa prevents Byzantine Faults by improving
+Raft&rsquo;s two sub-components: leader election and log replication.</p>
+<p>A leader election&rsquo;s initiation process is identical to the original Raft
+algorithm, a follower starts an election, transitions to candidates, and
+sends out RequestVote RPCs. Modifications mainly focus on the recipient
+of the RequestVote RPCs. After receiving a vote request, the follower
+will not terminate its current term immediately but will continue to
+listen to heartbeats from the current leader and only respond to the
+vote request after the leader&rsquo;s timeout. This is called Lazy Voting, and
+it prevents malicious nodes from starving the system by constantly
+starting new elections. After the recipient confirms the leader&rsquo;s
+timeout, it will then respond to the vote request with its digital
+signature appended. The digital signature is used by the newly elected
+leader (after receiving enough votes) to send out heartbeat messages
+with the votes signed by all supporting peers to convince followers of
+its authority. If such a leader is then found to be behaving
+suspiciously, the client can trigger a new election by broadcasting
+UpdateLeader RPCs to all nodes.</p>
+<p>Extra steps are involved in log replication to prevent a malicious
+leader from forging client requests. The client sends requests with a
+digital signature to guarantee authenticity and integrity, and a unique
+identifier to prevent faulty nodes from duplicating existing entries.
+When the leader receives a request, it will send out signed heartbeats
+and all votes granted to it during the election phase, to convince
+followers of its authority. After receiving a heartbeat, the follower
+will validate: (a) if a heartbeat is from a valid leader (verified by
+the signed votes), and (b) if the new entry is valid (verified by the
+signed request). Followers will only replicate entries that satisfy
+both. A technique called incremental hashing is used to verify whether
+new entries are valid, such hash value exists at every log entry and is
+computed with the hash value at the previous entry. To compute the
+incremental has at index \(i\), the node computes the incremental hash
+value at index \(i-1\) recursively. This means the recipient of a new
+entry can verify if the leader has any missing or faulty entries by
+simply comparing the incremental hash values.</p>
+<h4 id="332---improving-rafts-efficiency">3.3.2 - Improving Raft&rsquo;s efficiency</h4>
+<p>There are a number of improvements to Raft&rsquo;s efficiency, this section
+will provide a high-level overview of how some designs tackle the
+problem.</p>
+<p>Designed by Kim et al. <sup id="fnref:24"><a href="#fn:24" class="footnote-ref" role="doc-noteref">24</a></sup>, a paper aims to address the network
+split problem (The election phase in Raft is also known as network split
+that cluster is considered down during election) in private blockchains
+where the network condition is unstable, resulting in a significant
+decrease in the blockchain&rsquo;s throughput and performance. This paper
+addresses this problem by proposing an innovative method that uses
+federated learning to improve the leader election mechanism that
+considers the network stability when electing leaders and minimizes the
+chance of network splits.</p>
+<p>Wang et al. <sup id="fnref:25"><a href="#fn:25" class="footnote-ref" role="doc-noteref">25</a></sup> proposed a K-bucket-based Raft-like algorithm to
+maximize the efficiency of the leader election and consensus process,
+which will be impacted as the number of nodes increases. The proposed
+algorithm is called KRaft, integrated the Kademlia protocol and K-bucket
+into the raft algorithm. Kademlia protocol uses a XOR metric to measure
+the logical distance between any two nodes. K-bucket is a component of
+the routing table computed by every node, which contains information
+about every other nodes at varying distances.</p>
+<p>Lastly, Want et al. <sup id="fnref:26"><a href="#fn:26" class="footnote-ref" role="doc-noteref">26</a></sup> proposed a Raft
+algorithm designed specifically for highly adversarial and high
+real-time environments, which takes both Byzantine-fault-tolerance and
+efficiency into account. The algorithm, hhRaft tackles security problems
+by introducing monitor nodes that supervise the election and the log
+replication process, the monitor nodes also help reduce the possibility
+of network splits and election delays.</p>
+<h2 id="4---paxos-and-raft-a-comparative-analysis">4 - Paxos and Raft: A Comparative Analysis</h2>
+<p>In this section, we will compare various aspects of Paxos and Raft. Both
+algorithms have many revisions. We will mainly use Paxos&rsquo; most popular
+implementation - Multi-Paxos to compare with the original Raft. We
+followed a study <sup id="fnref:27"><a href="#fn:27" class="footnote-ref" role="doc-noteref">27</a></sup> to obtain a specific version of
+definition.</p>
+<h3 id="41---leader-election-and-understandability">4.1 - Leader Election and Understandability</h3>
+<p>One of the most significant understandability difference between Raft
+and the Paxos family is how the election is conducted
+<sup id="fnref1:27"><a href="#fn:27" class="footnote-ref" role="doc-noteref">27</a></sup>. In a state machine replication algorithm, there
+might be different nodes trying to compete to be the leader at the same
+time. It is important to guarantee Election Safety - at most one
+candidate can win the election during an election term. It is acceptable
+that no candidate wins the election due to a split vote or other issues
+and the decision is pushed back to subsequent elections. However, the
+occurrence of such repetitive elections should be reduced as much as
+possible to minimize downtime.</p>
+<p>In Paxos, leader election is less trivial. To prevent a split vote, the
+candidate with the highest term number will become the leader. A server
+\(s\) among a cluster with \(n\) nodes can only be a candidate in a term if
+\(t\mod n=s\). Therefore, there can only be one candidate per term,
+ensuring the election safety. However, Paxos doesn&rsquo;t enforce that the
+new leader will contain all the up-to-date logs once it starts the
+election. Instead, each node will include their log entries in their
+reply to the election messages, allowing the new leader to update its
+log on-the-fly.</p>
+<p>In Raft, leader election is handled in a more understandable way. It
+uses a majority voting strategy to prevent a term from having more than
+one leader. Compared to Paxos, this strategy is more straightforward but
+might lead to the issue of repetitive split votes, causing the election
+to repeat over and over. Therefore, Raft asks each node to use a
+randomized timeout value to ensure that the possibility of multiple
+nodes starting an election simultaneously is low. Although this approach
+seems unstable intuitively, it has been proven to be surprisingly
+efficient <sup id="fnref1:22"><a href="#fn:22" class="footnote-ref" role="doc-noteref">22</a></sup> <sup id="fnref2:27"><a href="#fn:27" class="footnote-ref" role="doc-noteref">27</a></sup>. Additionally, another
+notable design of Raft is that it enforces a strong leadership and only
+allows a candidate with an up-to-date log to become the leader. While
+the leader will re-transmit missing logs to its followers later. This
+has simplified the message flow during election stage.</p>
+<h3 id="42---correctness-and-fault-tolerance">4.2 - Correctness and Fault-Tolerance</h3>
+<p>Both Raft and Paxos are similar in the assumptions they make and the
+environment they work under. They all assume an asynchronous and
+non-byzantine fault tolerance system. They can all guarantee safety if
+majority of nodes are online and survive less than half of the node
+failures. Besides, they both gave up some degree of liveness to
+circumvent the FLP impossibility theorem.</p>
+<h3 id="43---performance">4.3 - Performance</h3>
+<p>The authors of Raft stated that Raft has approximately the same level of
+efficiency as (Multi-)Paxos. A study <sup id="fnref:28"><a href="#fn:28" class="footnote-ref" role="doc-noteref">28</a></sup>
+showed that Raft and Paxos clusters take roughly the same amount of time
+to establish consensus under various cluster setups. Another study
+<sup id="fnref:29"><a href="#fn:29" class="footnote-ref" role="doc-noteref">29</a></sup> demonstrated that Raft exhibited relatively stable
+consensus times across parameter changes, while Paxos was more sensitive
+to changes in network latency which result in the increase of consensus
+time. However, it is worth noting that there are only a few studies that
+focus on comparing the performance of Paxos and Raft, and the two
+examples we mentioned may not be conclusive. This could be one of the
+future research direction of consensus algorithm.</p>
+<h2 id="5---conclusion">5 - Conclusion</h2>
+<p>In this paper, we have firstly introduced the foundations of consensus -
+the Byzantine Generals Problem and the FLP impossibility result. We then
+discussed two state machine replication algorithms - Paxos, and Raft. We
+have gone into depth in Raft to discuss how it works, how it can be
+improved in terms of security and performance, and how it differs from
+Paxos in leader elections.</p>
+<h2 id="references">References</h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>Bhardwaj, Prof. Rashmi, and Debabrata Datta. 2020. &ldquo;Consensus Algorithm.&rdquo; In, 91&ndash;107. <a href="https://doi.org/10.1007/978-3-030-38677-1_5">https://doi.org/10.1007/978-3-030-38677-1_5</a>.&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>Pease, M., R. Shostak, and L. Lamport. 1980. &ldquo;Reaching Agreement in the
+Presence of Faults.&rdquo; <em>J. ACM</em> 27 (2): 228&ndash;34.
+<a href="https://doi.org/10.1145/322186.322188">https://doi.org/10.1145/322186.322188</a>.&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>Lamport, Leslie, Robert Shostak, and Marshall Pease. 1982. &ldquo;The
+Byzantine Generals Problem.&rdquo; <em>ACM Trans. Program. Lang. Syst.</em> 4 (3):
+382&ndash;401. <a href="https://doi.org/10.1145/357172.357176">https://doi.org/10.1145/357172.357176</a>.&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>Coulouris, George, Jean Dollimore, Tim Kindberg, and Gordon Blair. 2011.
+<em>Distributed Systems: Concepts and Design</em>. 5th ed. USA: Addison-Wesley
+Publishing Company.&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>Considine, Jeffrey, Matthias Fitzi, Matthew Franklin, Leonid A. Levin,
+Ueli Maurer, and David Metcalf. 2005. &ldquo;Byzantine Agreement Given Partial
+Broadcast.&rdquo; <em>Journal of Cryptology</em> 18 (3): 191&ndash;217.&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>Lamport, L. 1983. &ldquo;The Weak Byzantine Generals Problem.&rdquo; <em>J. ACM</em> 30
+(3): 668&ndash;76. <a href="https://doi.org/10.1145/2402.322398">https://doi.org/10.1145/2402.322398</a>.&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>Dolev, Danny, Nancy A. Lynch, Shlomit S. Pinter, Eugene W. Stark, and
+William E. Weihl. 1986. &ldquo;Reaching Approximate Agreement in the Presence
+of Faults.&rdquo; <em>J. ACM</em> 33 (3): 499&ndash;516.
+<a href="https://doi.org/10.1145/5925.5931">https://doi.org/10.1145/5925.5931</a>.&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p>Fischer, Michael J., Nancy A. Lynch, and Michael S. Paterson. 1985.
+&ldquo;Impossibility of Distributed Consensus with One Faulty Process.&rdquo; <em>J.
+ACM</em> 32 (2): 374&ndash;82. <a href="https://doi.org/10.1145/3149.214121">https://doi.org/10.1145/3149.214121</a>.&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>Howard, Heidi. 2019. &ldquo;Distributed Consensus Revised.&rdquo;
+<a href="https://doi.org/10.17863/CAM.38840">https://doi.org/10.17863/CAM.38840</a>.&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p>Dolev, Danny, Cynthia Dwork, and Larry Stockmeyer. 1987. &ldquo;On the Minimal
+Synchronism Needed for Distributed Consensus.&rdquo; <em>J. ACM</em> 34 (1): 77&ndash;97.
+<a href="https://doi.org/10.1145/7531.7533">https://doi.org/10.1145/7531.7533</a>.&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref3:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p>Dwork, Cynthia, Nancy Lynch, and Larry Stockmeyer. 1988. &ldquo;Consensus in
+the Presence of Partial Synchrony.&rdquo; <em>J. ACM</em> 35 (2): 288&ndash;323.
+<a href="https://doi.org/10.1145/42282.42283">https://doi.org/10.1145/42282.42283</a>.&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:12">
+<p>Chandra, Tushar Deepak, and Sam Toueg. 1996. &ldquo;Unreliable Failure
+Detectors for Reliable Distributed Systems.&rdquo; <em>J. ACM</em> 43 (2): 225&ndash;67.
+<a href="https://doi.org/10.1145/226643.226647">https://doi.org/10.1145/226643.226647</a>.&#160;<a href="#fnref:12" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:13">
+<p>Castro, Miguel, and Barbara Liskov. 1999. &ldquo;Practical Byzantine Fault
+Tolerance.&rdquo; In <em>Proceedings of the Third Symposium on Operating Systems
+Design and Implementation</em>, 173&ndash;86. OSDI &lsquo;99. USA: USENIX Association.&#160;<a href="#fnref:13" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:14">
+<p>Lamport, Leslie. 1978. &ldquo;Time, Clocks, and the Ordering of Events in a
+Distributed System.&rdquo; <em>Commun. ACM</em> 21 (7): 558&ndash;65.
+<a href="https://doi.org/10.1145/359545.359563">https://doi.org/10.1145/359545.359563</a>.&#160;<a href="#fnref:14" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:15">
+<p>Lamport, Leslie. 1998. &ldquo;The Part-Time Parliament.&rdquo; <em>ACM Trans. Comput. Syst.</em>
+16 (2): 133&ndash;69. <a href="https://doi.org/10.1145/279227.279229">https://doi.org/10.1145/279227.279229</a>.&#160;<a href="#fnref:15" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:16">
+<p>Du, Hao, and David J. St. Hilaire. 2009. &ldquo;Multi-Paxos : An
+Implementation and Evaluation.&rdquo; In.
+<a href="https://api.semanticscholar.org/CorpusID:13002642">https://api.semanticscholar.org/CorpusID:13002642</a>.&#160;<a href="#fnref:16" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:17">
+<p>Lamport, Leslie. 2006. &ldquo;Fast Paxos.&rdquo; <em>Distributed Computing</em> 19:
+79&ndash;103.&#160;<a href="#fnref:17" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:18">
+<p>Van Renesse, Robbert, and Deniz Altinbuken. 2015. &ldquo;Paxos Made Moderately
+Complex&rdquo; 47 (3). <a href="https://doi.org/10.1145/2673577">https://doi.org/10.1145/2673577</a>.&#160;<a href="#fnref:18" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:19">
+<p>Lamport, Leslie. 2001. &ldquo;Paxos Made Simple.&rdquo; <em>Sigact News - SIGACT</em> 32
+(January).&#160;<a href="#fnref:19" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:20">
+<p>Boichat, Romain, Partha Dutta, Svend Frølund, and Rachid Guerraoui. 2003. &ldquo;Deconstructing Paxos.&rdquo; <em>SIGACT News</em> 34 (1): 47&ndash;67. <a href="https://doi.org/10.1145/637437.637447">https://doi.org/10.1145/637437.637447</a>.&#160;<a href="#fnref:20" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:21">
+<p>Lampson, Butler. 2001. &ldquo;The Abcd&rsquo;s of Paxos.&rdquo; In <em>Proceedings of the
+Twentieth Annual Acm Symposium on Principles of Distributed Computing</em>,
+13. PODC &lsquo;01. New York, NY, USA: Association for Computing Machinery.
+<a href="https://doi.org/10.1145/383962.383969">https://doi.org/10.1145/383962.383969</a>.&#160;<a href="#fnref:21" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:22">
+<p>Ongaro, Diego, and John Ousterhout. 2014. &ldquo;In Search of an
+Understandable Consensus Algorithm.&rdquo; In <em>Proceedings of the 2014 Usenix
+Conference on Usenix Annual Technical Conference</em>, 305&ndash;20. USENIX
+Atc'14. USA: USENIX Association.&#160;<a href="#fnref:22" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:22" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:23">
+<p>Copeland, Christopher, and Hongxia Zhong. 2016. &ldquo;Tangaroa: A Byzantine
+Fault Tolerant Raft.&rdquo; Tech. rep.&#160;<a href="#fnref:23" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:24">
+<p>Kim, Donghee, Inshil Doh, and Kijoon Chae. 2021. &ldquo;Improved Raft
+Algorithm Exploiting Federated Learning for Private Blockchain
+Performance Enhancement.&rdquo; In <em>2021 International Conference on
+Information Networking (Icoin)</em>, 828&ndash;32.
+<a href="https://doi.org/10.1109/ICOIN50884.2021.9333932">https://doi.org/10.1109/ICOIN50884.2021.9333932</a>.&#160;<a href="#fnref:24" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:25">
+<p>Wang, Rihong, Lifeng Zhang, Quanqing Xu, and Hang Zhou. 2019. &ldquo;K-Bucket
+Based Raft-Like Consensus Algorithm for Permissioned Blockchain.&rdquo; In
+<em>2019 Ieee 25th International Conference on Parallel and Distributed
+Systems (Icpads)</em>, 996&ndash;99.
+<a href="https://doi.org/10.1109/ICPADS47876.2019.00152">https://doi.org/10.1109/ICPADS47876.2019.00152</a>.&#160;<a href="#fnref:25" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:26">
+<p>Wang, Yuchen, Shuang Li, Lei Xu, and Lizhen Xu. 2021. &ldquo;Improved Raft
+Consensus Algorithm in High Real-Time and Highly Adversarial
+Environment.&rdquo; In <em>Web Information Systems and Applications</em>, edited by
+Chunxiao Xing, Xiaoming Fu, Yong Zhang, Guigang Zhang, and Chaolemen
+Borjigin, 718&ndash;26. Cham: Springer International Publishing.&#160;<a href="#fnref:26" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:27">
+<p>Howard, Heidi, and Richard Mortier. 2020. &ldquo;Paxos Vs Raft: Have We
+Reached Consensus on Distributed Consensus?&rdquo; In <em>Proceedings of the 7th
+Workshop on Principles and Practice of Consistency for Distributed
+Data</em>. PaPoC &lsquo;20. New York, NY, USA: Association for Computing
+Machinery. <a href="https://doi.org/10.1145/3380787.3393681">https://doi.org/10.1145/3380787.3393681</a>.&#160;<a href="#fnref:27" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:27" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:27" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:28">
+<p>Van Dame, Kelsi Rado, Thomas Bronson Bergmann, Mohamed Aichouri, and
+Maria Pantoja. 2022. &ldquo;A Comparative Study of Consensus Algorithms for
+Distributed Systems.&rdquo; In <em>High Performance Computing</em>, edited by Isidoro
+Gitler, Carlos Jaime Barrios Hernández, and Esteban Meneses, 120&ndash;30.
+Cham: Springer International Publishing.&#160;<a href="#fnref:28" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:29">
+<p>Hidayat, Siswandi Agung, Wahyu Juniardi, Ali Akbar Khatami, and Riri
+Fitri Sari. 2022. &ldquo;Performance Comparison and Analysis of Paxos, Raft
+and Pbft Using Ns3.&rdquo; In <em>2022 Ieee International Conference on Internet
+of Things and Intelligence Systems (Iotais)</em>, 304&ndash;10.
+<a href="https://doi.org/10.1109/IoTaIS56727.2022.9975938">https://doi.org/10.1109/IoTaIS56727.2022.9975938</a>.&#160;<a href="#fnref:29" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+          </article>
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-3">
+        <div id="stickySideBar" class="sticky-sidebar">
+          
+          <aside class="toc">
+              <h5>
+                Table Of Contents
+              </h5>
+              <div class="toc-content">
+                <nav id="TableOfContents">
+  <ul>
+    <li><a href="#0---abstract">0 - Abstract</a></li>
+    <li><a href="#1---consensus">1 - Consensus</a>
+      <ul>
+        <li><a href="#11---the-byzantine-problem-family">1.1 - The Byzantine Problem Family</a></li>
+        <li><a href="#12---the-flp-impossibility-and-system-synchrony">1.2 - The FLP Impossibility and System Synchrony</a></li>
+      </ul>
+    </li>
+    <li><a href="#2---state-machine-replication-and-paxos">2 - State Machine Replication and Paxos</a>
+      <ul>
+        <li><a href="#21---state-machine-replication">2.1 - State Machine Replication</a></li>
+        <li><a href="#22---paxos">2.2 - Paxos</a></li>
+      </ul>
+    </li>
+    <li><a href="#3---raft-in-depth">3 - Raft In-depth</a>
+      <ul>
+        <li><a href="#31---the-invention-of-raft">3.1 - The Invention of Raft</a></li>
+        <li><a href="#32---how-raft-works">3.2 - How Raft Works</a></li>
+        <li><a href="#33---raft-revisions">3.3 - Raft Revisions</a></li>
+      </ul>
+    </li>
+    <li><a href="#4---paxos-and-raft-a-comparative-analysis">4 - Paxos and Raft: A Comparative Analysis</a>
+      <ul>
+        <li><a href="#41---leader-election-and-understandability">4.1 - Leader Election and Understandability</a></li>
+        <li><a href="#42---correctness-and-fault-tolerance">4.2 - Correctness and Fault-Tolerance</a></li>
+        <li><a href="#43---performance">4.3 - Performance</a></li>
+      </ul>
+    </li>
+    <li><a href="#5---conclusion">5 - Conclusion</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+              </div>
+          </aside>
+          
+
+          
+          <aside class="tags">
+            <h5>Tags</h5>
+            <ul class="tags-ul list-unstyled list-inline">
+              
+              <li class="list-inline-item"><a href="/tags/distributed-systems" target="_blank">distributed-systems</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/raft" target="_blank">raft</a></li>
+              
+            </ul>
+          </aside>
+          
+
+          
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      
+      <div class="col-sm-12 col-md-12 col-lg-9 p-4">
+        <script src="https://giscus.app/client.js"
+        data-repo="ziming-w/ziming-w.github.io"
+        data-repo-id="R_kgDOIqKoVQ"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOIqKoVc4Cdm4c"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+    </script>
+      </div>
+    </div>
+  </div>
+  
+  <button class="p-2 px-3" onclick="topFunction()" id="topScroll">
+    <i class="fas fa-angle-up"></i>
+  </button>
+</section>
+
+
+<div class="progress">
+  <div id="scroll-progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<Script src="/js/scrollProgressBar.js"></script>
+
+
+<script>
+  var topScroll = document.getElementById("topScroll");
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      topScroll.style.display = "block";
+    } else {
+      topScroll.style.display = "none";
+    }
+  }
+
+  function topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
+  
+  let stickySideBarElem = document.getElementById("stickySideBar");
+  let stickyNavBar =  false ;
+  if(stickyNavBar) {
+    let headerElem = document.getElementById("profileHeader");
+    let headerHeight = headerElem.offsetHeight + 15;
+    stickySideBarElem.style.top = headerHeight + "px";
+  } else {
+    stickySideBarElem.style.top = "50px";
+  }
+</script>
+
+
+<script src="/js/readingTime.js"></script>
+
+
+
+  </div><footer>
+    
+ 
+ 
+<div class="container py-3" id="recent-posts">
+    
+    
+    <div class="h3 text-center text-secondary py-3">
+        Recent Posts
+    </div>
+    <div class="row justify-content-center">
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
+                    <a href="/blogs/consensus-raft/">
+                        <img src="/raft.jpg" class="card-img-top" alt="Distributed Consensus and Raft - A Survey">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/consensus-raft/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Distributed Consensus and Raft - A Survey">Distributed Consensus and Raft - A Survey</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>A research survey on distributed consensus, state machine replication, Paxos, and Raft. My project work for COMP90020 (Distributed Algorithms) at Unimelb</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">June 17, 2024</span>
+                    <a href="/blogs/consensus-raft/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
+                    <a href="/blogs/middlewares-es-sql/">
+                        <img src="/elk.jpg" class="card-img-top" alt="Middlewares for Data Syncing between ElasticSearch and PostgreSQL">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/middlewares-es-sql/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Middlewares for Data Syncing between ElasticSearch and PostgreSQL">Middlewares for Data Syncing between ElasticSearch and PostgreSQL</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>PGSync, Logstash, and Elastic-Connector: pros and cons based on my experiments. Plus other data syncing options</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">February 28, 2024</span>
+                    <a href="/blogs/middlewares-es-sql/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
+                    <a href="/blogs/deploy-elk-ubuntu/">
+                        <img src="/elk.jpg" class="card-img-top" alt="Deploy ELK Stack on a Remote Ubuntu VM">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/deploy-elk-ubuntu/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Deploy ELK Stack on a Remote Ubuntu VM">Deploy ELK Stack on a Remote Ubuntu VM</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>Deploy ElasticSearch, Kibana, Logstash, and PostgreSQL (optionally) natively on a AWS EC2 Ubuntu VM</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">February 8, 2024</span>
+                    <a href="/blogs/deploy-elk-ubuntu/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="text-center pt-2">
+    
+    <span class="px-1">
+        <a href="https://github.com/Ziming-W" aria-label="github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="2.7em" height="2.7em" viewBox="0 0 1792 1792">
+                <path
+                    d="M522 1352q-8 9-20-3-13-11-4-19 8-9 20 3 12 11 4 19zm-42-61q9 12 0 19-8 6-17-7t0-18q9-7 17 6zm-61-60q-5 7-13 2-10-5-7-12 3-5 13-2 10 5 7 12zm31 34q-6 7-16-3-9-11-2-16 6-6 16 3 9 11 2 16zm129 112q-4 12-19 6-17-4-13-15t19-7q16 5 13 16zm63 5q0 11-16 11-17 2-17-11 0-11 16-11 17-2 17 11zm58-10q2 10-14 14t-18-8 14-15q16-2 18 9zm964-956v960q0 119-84.5 203.5t-203.5 84.5h-224q-16 0-24.5-1t-19.5-5-16-14.5-5-27.5v-239q0-97-52-142 57-6 102.5-18t94-39 81-66.5 53-105 20.5-150.5q0-121-79-206 37-91-8-204-28-9-81 11t-92 44l-38 24q-93-26-192-26t-192 26q-16-11-42.5-27t-83.5-38.5-86-13.5q-44 113-7 204-79 85-79 206 0 85 20.5 150t52.5 105 80.5 67 94 39 102.5 18q-40 36-49 103-21 10-45 15t-57 5-65.5-21.5-55.5-62.5q-19-32-48.5-52t-49.5-24l-20-3q-21 0-29 4.5t-5 11.5 9 14 13 12l7 5q22 10 43.5 38t31.5 51l10 23q13 38 44 61.5t67 30 69.5 7 55.5-3.5l23-4q0 38 .5 103t.5 68q0 22-11 33.5t-22 13-33 1.5h-224q-119 0-203.5-84.5t-84.5-203.5v-960q0-119 84.5-203.5t203.5-84.5h960q119 0 203.5 84.5t84.5 203.5z" />
+
+                <metadata>
+                    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+                        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+                        <rdf:Description about="https://iconscout.com/legal#licenses"
+                            dc:title="Github, Online, Project, Hosting, Square"
+                            dc:description="Github, Online, Project, Hosting, Square" dc:publisher="Iconscout"
+                            dc:date="2016-12-14" dc:format="image/svg+xml" dc:language="en">
+                            <dc:creator>
+                                <rdf:Bag>
+                                    <rdf:li>Font Awesome</rdf:li>
+                                </rdf:Bag>
+                            </dc:creator>
+                        </rdf:Description>
+                    </rdf:RDF>
+                </metadata>
+            </svg>
+        </a>
+    </span>
+    
+
+    
+    <span class="px-1">
+        <a href="https://www.linkedin.com/in/ziming-wang-3b165025a/" aria-label="linkedin">
+            <svg xmlns="http://www.w3.org/2000/svg" width='2.4em' height='2.4em' fill="#fff" aria-label="LinkedIn"
+                viewBox="0 0 512 512">
+                <rect width="512" height="512" fill="#0077b5" rx="15%" />
+                <circle cx="142" cy="138" r="37" />
+                <path stroke="#fff" stroke-width="66" d="M244 194v198M142 194v198" />
+                <path d="M276 282c0-20 13-40 36-40 24 0 33 18 33 45v105h66V279c0-61-32-89-76-89-34 0-51 19-59 32" />
+            </svg>
+        </a>
+    </span>
+    
+
+    
+
+    
+
+    
+</div>
+
+
+<br>
+<br>
+<br>
+<br></footer><script src="/bootstrap-5/js/bootstrap.bundle.min.js"></script>
+<script>
+    if (document.body.className.includes("light")) {
+        document.body.classList.add('dark');
+        localStorage.setItem("pref-theme", 'dark');
+    }
+</script>
+
+
+    <script src="/js/search.js"></script>
+
+
+
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" integrity="sha384-M5jmNxKC9EVnuqeMwRHvFuYUE8Hhp0TgBruj/GZRkYtiMrCRgH7yvv5KY+Owi7TW" crossorigin="anonymous"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+</script>
+
+
+
+
+
+
+
+
+  <section id="search-content" class="py-2">
+    <div class="container" id="search-results"></div>
+  </section>
+</body>
+
+</html>

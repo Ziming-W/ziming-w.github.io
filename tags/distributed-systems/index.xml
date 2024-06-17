@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>distributed-systems on Ziming Wang</title>
+    <link>/tags/distributed-systems/</link>
+    <description>Recent content in distributed-systems on Ziming Wang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Jun 2024 00:00:00 +0530</lastBuildDate><atom:link href="/tags/distributed-systems/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Distributed Consensus and Raft - A Survey</title>
+      <link>/blogs/consensus-raft/</link>
+      <pubDate>Mon, 17 Jun 2024 00:00:00 +0530</pubDate>
+      
+      <guid>/blogs/consensus-raft/</guid>
+      <description>A research survey on distributed consensus, state machine replication, Paxos, and Raft. My project work for COMP90020 (Distributed Algorithms) at Unimelb</description>
+    </item>
+    
+  </channel>
+</rss>

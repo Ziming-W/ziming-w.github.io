@@ -383,7 +383,7 @@ Middlewares for Data Syncing between ElasticSearch and PostgreSQL | Ziming Wang
 <ul>
 <li><strong>PostgreSQL-&gt;Debezium-&gt;Kafka-&gt;ES Connector/Logstash-&gt;ES</strong>: I didn&rsquo;t take this into consideration for our project because it seems like a resource-intensive solution, since two more middlewares as used. But it looks very interesting to me. Debezium is a CDC (change data capture) tool and also uses PostgreSQL&rsquo;s <code>logical decoding</code> feature. Plus this solution provides great flexibility, customization and stability. Maybe one day I will give it a try.</li>
 <li>Third party data ETL tools such AirByte, Estuary&hellip;</li>
-<li>In your backend, it is doable to perform create/update/delete to both the main SQL database and ES simultaneously. It is pretty flexible and customizable, but still sounds like a horrible idea to me. It is gonna mess up the backend code and performance. Imagine ES server is down, and a customer&rsquo;s &ldquo;add a comment&rdquo; request got denied because SQL query succeeded but ES query failed&hellip;</li>
+<li>In your backend framework, it is doable to perform create/update/delete to both the main SQL database and ES simultaneously. It is doable but sounds like a bad idea to me.</li>
 </ul>
 <br>
 <br>
@@ -532,6 +532,30 @@ Middlewares for Data Syncing between ElasticSearch and PostgreSQL | Ziming Wang
             <div class="card h-100">
                 
                 <div class="card-header">
+                    <a href="/blogs/consensus-raft/">
+                        <img src="/raft.jpg" class="card-img-top" alt="Distributed Consensus and Raft - A Survey">
+                    </a>
+                </div>
+                
+                <div class="card-body bg-transparent p-3 shadow-sm">
+                    <a href="/blogs/consensus-raft/" class="primary-font card-title">
+                        <h5 class="card-title bg-transparent" title="Distributed Consensus and Raft - A Survey">Distributed Consensus and Raft - A Survey</h5>
+                    </a>
+                    <div class="card-text secondary-font">
+                        <p>A research survey on distributed consensus, state machine replication, Paxos, and Raft. My project work for COMP90020 (Distributed Algorithms) at Unimelb</p>
+                    </div>
+                </div>
+                <div class="mt-auto card-footer">
+                    <span class="float-start">June 17, 2024</span>
+                    <a href="/blogs/consensus-raft/" class="float-end btn btn-outline-info btn-sm">Read</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 pt-2">
+            <div class="card h-100">
+                
+                <div class="card-header">
                     <a href="/blogs/middlewares-es-sql/">
                         <img src="/elk.jpg" class="card-img-top" alt="Middlewares for Data Syncing between ElasticSearch and PostgreSQL">
                     </a>
@@ -572,30 +596,6 @@ Middlewares for Data Syncing between ElasticSearch and PostgreSQL | Ziming Wang
                 <div class="mt-auto card-footer">
                     <span class="float-start">February 8, 2024</span>
                     <a href="/blogs/deploy-elk-ubuntu/" class="float-end btn btn-outline-info btn-sm">Read</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-lg-4 col-md-6 pt-2">
-            <div class="card h-100">
-                
-                <div class="card-header">
-                    <a href="/blogs/resource-sharing/">
-                        <img src="/post-default.jpg" class="card-img-top" alt="Good Tech Tutorials/Blogs/Sites">
-                    </a>
-                </div>
-                
-                <div class="card-body bg-transparent p-3 shadow-sm">
-                    <a href="/blogs/resource-sharing/" class="primary-font card-title">
-                        <h5 class="card-title bg-transparent" title="Good Tech Tutorials/Blogs/Sites">Good Tech Tutorials/Blogs/Sites</h5>
-                    </a>
-                    <div class="card-text secondary-font">
-                        <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
-                    </div>
-                </div>
-                <div class="mt-auto card-footer">
-                    <span class="float-start">November 13, 2023</span>
-                    <a href="/blogs/resource-sharing/" class="float-end btn btn-outline-info btn-sm">Read</a>
                 </div>
             </div>
         </div>
