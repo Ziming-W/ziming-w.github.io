@@ -28,16 +28,16 @@
 
 
 
-<meta property="og:title" content="Good Tech Tutorials/Blogs/Sites" />
-<meta property="og:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming." />
+<meta property="og:title" content="A Production Setup for a Small-Scale Website on AWS" />
+<meta property="og:description" content="Setting up a production-ready AWS architecture for a small-scale website and deliver to the client" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/blogs/resource-sharing/" /><meta property="article:section" content="blogs" />
-<meta property="article:published_time" content="2023-11-13T00:00:00+05:30" />
-<meta property="article:modified_time" content="2023-11-13T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
+<meta property="og:url" content="/blogs/small-website-prod-aws-setup/" /><meta property="article:section" content="blogs" />
+<meta property="article:published_time" content="2024-11-08T00:00:00+05:30" />
+<meta property="article:modified_time" content="2024-11-08T00:00:00+05:30" /><meta property="og:site_name" content="Ziming Wang" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Good Tech Tutorials/Blogs/Sites"/>
-<meta name="twitter:description" content="Some good tech tutorials/blogs/sites that I found helpful in my study and programming."/>
+<meta name="twitter:title" content="A Production Setup for a Small-Scale Website on AWS"/>
+<meta name="twitter:description" content="Setting up a production-ready AWS architecture for a small-scale website and deliver to the client"/>
 
 
 <link rel="stylesheet" href="/bootstrap-5/css/bootstrap.min.css" media="all"><link rel="stylesheet" href="/css/header.css" media="all">
@@ -107,7 +107,7 @@
 <script defer src="/fontawesome-6/all-6.4.2.js"></script>
 
   <title>
-Good Tech Tutorials/Blogs/Sites | Ziming Wang
+A Production Setup for a Small-Scale Website on AWS | Ziming Wang
 
   </title>
 </head>
@@ -231,11 +231,11 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
       <div class="col-sm-12 col-md-12 col-lg-9">
         <div class="pr-lg-4">
           <div class="title mb-5">
-            <h1 class="text-center mb-4">Good Tech Tutorials/Blogs/Sites</h1>
+            <h1 class="text-center mb-4">A Production Setup for a Small-Scale Website on AWS</h1>
             <div class="text-center">
               Ziming Wang 
               <small>|</small>
-              Nov 13, 2023
+              Nov 8, 2024
 
               
               <span id="readingTime">
@@ -246,59 +246,141 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
           </div>
           
           <div class="featured-image">
-            <img class="img-fluid mx-auto d-block" src="/post-default.jpg" alt="Good Tech Tutorials/Blogs/Sites">
+            <img class="img-fluid mx-auto d-block" src="/aws.png" alt="A Production Setup for a Small-Scale Website on AWS">
           </div>
           
           <article class="page-content  p-2">
-          <p>Some good tech tutorials/blogs/sites that I found helpful in my study and programming.</p>
-<h2 id="backendsystem-design">Backend/System Design</h2>
-<p><strong><a href="https://jenkov.com/tutorials/java-concurrency/index.html">[Site]</a><a href="https://www.youtube.com/watch?v=mTGdtC9f4EU&amp;list=PLL8woMHwr36EDxjUoCzboZjedsnhLP1j4">[Course]</a></strong> Java multi-threading course. Highly recommended. You can also find other advanced Java tutorials on this site.</p>
-<p><strong><a href="https://discord.com/blog/how-discord-stores-trillions-of-messages">[Article]</a><a href="https://discord.com/blog/how-discord-stores-billions-of-messages">[Article]</a></strong> How Discord use Cassandra and ScyllaDB to store trillions of messages.</p>
-<p><strong><a href="https://www.youtube.com/watch?v=2PPSXonhIck">[Tutorial]</a><a href="https://github.com/alex996/presentations/blob/master/auth.md">[Notes]</a></strong>  Authentication on the web. JWT, session, cookie, XSS, CSRF&hellip;</p>
-<p><strong><a href="https://www.amazon.com.au/System-Design-Interview-insiders-Second/dp/B08CMF2CQF">[BOOK]</a></strong> <em>System Design Interview – An insider&rsquo;s guide</em> by Alex Xu</p>
-<p><strong><a href="https://www.youtube.com/watch?v=7hZXBrI2TjY&amp;list=PL5aURjJ6mdUecuFvHqay0xZ0iN9SOe5nE&amp;index=3">[Tutorial]</a></strong> System Design Interview with AWS. Design Youtube, Whatsapp, Twitter.</p>
-<p><strong><a href="https://www.bezkoder.com/">[SITE]</a></strong> Full stack web dev reference site.</p>
-<p><strong><a href="https://www.freecodecamp.org/news/what-exactly-is-client-side-rendering-and-hows-it-different-from-server-side-rendering-bd5c786b340d/">[ARTICLE]</a></strong> Client-side rendering VS server-side rendering</p>
+          <h2 id="0---overview">0 - Overview</h2>
+<p>This blog dicusses a production setup I made for a small-scale website on AWS. I mainly want to talk about the security configuration in the system and how the modules communicate with each other.</p>
+<h3 id="background">Background</h3>
+<p>This project was part of my coursework for COMP90082 (Software Project) at the University of Melbourne. Our team of five built a cleaner management and job allocation system for a real cleaning company (not a mock assignment). The project included a mobile app that enabled cleaners to view and submit jobs, as well as a web-based platform for administrators to manage assignments.</p>
+<p>I was responsible for all deployment and AWS-related tasks within the team. At the end of the project, I handed over the system to the client by migrating all components from my AWS account to the client’s account.</p>
+<h3 id="why-it-is-a-production-setup">Why it is a production setup</h3>
+<p>I implemented many improvements in the production setup compared to our simplified development setup, focusing on enhanced security and scalability. For example, in our dev deployment, HTTPS was not used in the system. I definitely can&rsquo;t do the same for the production setup. Another example is that many services were publicly-facing in the dev setup to make our devlopment easier and it&rsquo;s not a good practice.</p>
+<h3 id="-cost-constraints">!!! Cost constraints</h3>
+<p>The client wants to keep costs as low as possible, so most of the setup I used are within the free tier. I couldn’t do something like placing the database in a private subnet and using a VPN to connect to it, as a VPN would be too costly.</p>
 <br>
-<h2 id="machine-learningdata">Machine Learning/Data</h2>
-<p><strong>[<a href="https://blog.insightdatascience.com/bias-variance-tradeoff-explained-fa2bc28174c4">ARTICLE</a>]</strong> An in-depth explanation about bias and variance.</p>
-<p><strong>[<a href="https://www.jeremyjordan.me/batch-normalization/">ARTICLE</a>]</strong> Importance of normalising data in neural networks. </p>
-<p><strong><a href="https://www.youtube.com/watch?v=aircAruvnKk&amp;list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi&amp;index=1">[TUTORIAL]</a></strong> Introductory videos for neural networks. Mainly talked about MLP.</p>
-<p><strong>[<a href="https://www.youtube.com/@firstprinciplesofcomputerv3258">COURSE</a>]</strong> University of Columbia&rsquo;s legendary <em>Computer Vision</em> course.</p>
-<p><strong>[<a href="https://distill.pub/2017/feature-visualization/">ARTICLE</a>]</strong> Feature visualization and how convolutional neural network learns</p>
-<p><strong>[<a href="https://convnetplayground.fastforwardlabs.com/#/models">SITE</a>]</strong> A pre-trained CNN playground. You can use different pre-trained CNN as feature extractors. Then use extracted embeddings to perform Sementic Search - find another similar image within a dataset. There are many adjustable parameters, including datasets, pre-trained CNN, which layer you want to use, and distance metrics. Pretty fun to play around.</p>
 <br>
-<h2 id="computer-networks">Computer Networks</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=ZMcmspNpkOw&amp;list=PLMLm7-g0V0kdRIhd-qOtDSfG1tNAaQCBz&amp;index=1&amp;t=10s">[TUTORIAL]</a></strong> Computer network tutorials.</p>
-<p><strong><a href="https://github.com/alex/what-happens-when">[ARTICLE]</a></strong> What happens when you access a website? Explain all OSI layers&rsquo; behaviour from the physical layer to the application layer.</p>
-<p><strong><a href="https://www2.tkn.tu-berlin.de/teaching/rn/animations/gbn_sr/">[SITE]</a></strong> Visualise and let you play with TCP&rsquo;s retransmission. Helpful to the exam.</p>
+<h2 id="1---overall-architecture">1 - Overall architecture</h2>
+<h3 id="heading"></h3>
+<p>This image shows the overall architecture of the system. Nothing fancy here—just a standard frontend-backend-database-objectstorage setup. So, I won’t dive into the deployment details of each component since they’re pretty straightforward. My main focus is on security and routing configurations.</p>
+<p>Here is a brief overview:</p>
+<ul>
+<li>CloudFront CDN: the only public endpoint</li>
+<li>Frontend-Web: ReactJS on S3</li>
+<li>Frontend-Mobile: React Native</li>
+<li>Backend: Springboot on EC2</li>
+<li>Database: MySQL on RDS</li>
+<li>Object Storage: S3</li>
+</ul>
+<p><img src="/aws-architecture-sm.png" alt="AWS Architecture" title="AWS Architecture"></p>
 <br>
-<h2 id="artifical-intelligence-the-subject">Artifical Intelligence (The subject)</h2>
-<p>The Artificial Intelligence University subject. E.g. search algorithms, game agent, CSP, Bayesian Net, Reinforcement Learning&hellip;</p>
-<p><strong><a href="https://www.youtube.com/watch?v=UXW2yZndl7U&amp;list=PL2bg-mBy9Lqi7Q14cOqOK7zVvR6Jfk4nA&amp;index=4">[TUTORIAL]</a></strong> Step-by-step demo for search algorithms, MCTS and constrain-satisfication. This professor is truly a legend. Helped me so much for the exam.</p>
-<p><strong><a href="https://raphsilva.github.io/utilities/minimax_simulator/#">[SITE]</a></strong> Minimax and alpha-beta pruning simulator. For the exam purpose, randomly make some trees by yourself and perform the pruning and backpropagations to practice.</p>
-<p><strong><a href="https://inst.eecs.berkeley.edu/~cs188/sp23/">[COURSE]</a></strong> Berkeley&rsquo;s <em>Artificial Intelligence</em> course.</p>
 <br>
-<h2 id="distributed-systems">Distributed Systems</h2>
-<p><strong><a href="https://hackernoon.com/connecting-the-dots-flp-bft-and-consensus-algorithms-m9r62bs1">[Article]</a></strong> <em>Connecting the Dots: FLP, BFT &amp; Consensus Algorithms</em>. It discusses the connections and interleavings of failure models (crash/omission/byzantine) and interaction models (sync/async) in distributed consensus problem.</p>
-<p>If you also feel sad taking Unimelb&rsquo;s trash course COMP90015 (Distributed Systems) that 40% of the contents overlap with COMP30023, 60% of the contents are too high-level and old AF, then:</p>
-<p><strong><a href="https://pdos.csail.mit.edu/6.824/schedule.html">[COURSE]</a></strong> MIT&rsquo;s <em>Distributed Systems</em>. Most reputable Distributed System course.</p>
-<p><strong><a href="https://www.youtube.com/watch?v=UEAMfLPZZhE&amp;list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB&amp;index=1">[COURSE]</a></strong> University of Cambridge&rsquo;s <em>Distributed System</em>. It is easier than MIT&rsquo;s and has some overlapping with Unimelb&rsquo;s COMP90020 <em>Distributed Algorithms</em>.</p>
-<p><strong><a href="https://courses.engr.illinois.edu/cs425/fa2009/">[Course2009]</a><a href="https://courses.grainger.illinois.edu/ece428/sp2024/">[Course2024]</a></strong> (replace the URL with different years so that you can check past semesters) University of Illinois&rsquo;s <em>Distributed Systems</em>. This one is very similar to COMP90020. The most useful content from this course is the publicly available exereices. Good for exam preparations. Sadly this subject&rsquo;s lecture recording is not publicly available.</p>
-<p><strong><a href="http://elaineshi.com/docs/blockchain-book.pdf">[BOOK]</a></strong> <em>Foundations of Distributed Consensus and Blockchains</em> by Elaine Shi. It only focuses on consensus related problems.
-<br></p>
-<h2 id="cryptography">Cryptography</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=z9bTzjy4SCg">[TUTORIAL]</a></strong> Tutorial for finite field (Galois field). This channel also has many good math tutorials. This video is especially helpful if you are a Unimelb student taking COMP90043 (Crytography and Security) - The subject content on the finite field part is so ill-designed. The lecture slides are stackings of formulas with no explanation. Plus if your lecturer is Udaya then&hellip;good luck&hellip; (Other than these, the subject is pretty good)</p>
-<p><strong><a href="https://www.youtube.com/playlist?list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII">[COURSE]</a></strong> <em>Crytography and Network Security</em> full course. Might be helpful to your COMP90043 study. But I personally find the suggested textbook (<em>Crytography and Network Security - William Stallings</em>) more useful for this subject. The subject syllabus follows the textbook exactly so if you don&rsquo;t understand anything just refer to the textbook.</p>
+<h2 id="2---cloudfront-cdn">2 - CloudFront CDN</h2>
+<h3 id="purpose">Purpose</h3>
+<p>This is definitely the coolest service on AWS. It basically fulfilles all my extra need for a production setup compare to a dev setup. It provides:</p>
+<ul>
+<li><strong>HTTPS</strong>: Provides HTTPS endpoints for all modules, a must-have feature. And I don&rsquo;t need to worry about SSL certificates.</li>
+<li><strong>Routing</strong>: Groups all modules under the same domain. I don&rsquo;t have a domain so can’t use Route 53 for routing. CloudFront is the substitute.</li>
+<li><strong>Endpoint</strong>: Serves as the only public endpoint in the system, keeping all other modules hidden behind it.</li>
+<li><strong>Caching/Performance</strong>: Finally, the orignal purpose of a CDN.</li>
+</ul>
+<h3 id="how-it-route-traffic">How it route traffic</h3>
+<p><strong>/api</strong>: It routes traffic to my EC2</p>
+<ul>
+<li>Cache policy: <code>CachingDisabled</code> (dynamic API should not be cached in my use case)</li>
+<li>Origin request policy: <code>AllViewer</code> (some of my API requests contain query string. By default, CloudFront doesn&rsquo;t forward query string to the origin, so I need to set this policy. I don&rsquo;t want CloudFront to remove anything in http requests sent to my API endpoint)</li>
+<li>Origin access policy: not applicable since it&rsquo;s a public endpoint. I will protect this resource through security group inbound rules. (see EC2 section for details)</li>
+</ul>
+<p><strong>/files</strong>: It routes traffic to my object storage s3 bucket</p>
+<ul>
+<li>Cache policy: <code>CachingOptimized</code> (it should be cached)</li>
+<li>Origin request policy: <code>Default</code></li>
+<li>Origin access policy: enabled (see the object storage section for s3 bucket policy)</li>
+</ul>
+<p><strong>/</strong>: It routes traffic to my frontend s3 bucket</p>
+<ul>
+<li>cache policy: <code>CachingOptimized</code> (it should be cached)</li>
+<li>Origin request policy: <code>Default</code></li>
+<li>Origin access policy: not applicable since I am using s3 static website endpoint. (see the frontend section for details)</li>
+</ul>
 <br>
-<h2 id="cs-self-learning--roadmap">CS Self-Learning  RoadMap</h2>
-<p><strong><a href="https://csdiy.wiki/en/">[RoadMap]</a></strong> CS self-learning roadmap.</p>
-<p><strong><a href="https://roadmap.sh/">[RoadMap]</a></strong> Developer self-learning roadmap. E.g. backend developer, frontend developer, game developer&hellip;</p>
 <br>
-<h2 id="fun-stuff">Fun Stuff</h2>
-<p><strong><a href="https://www.youtube.com/watch?v=_3loq22TxSc">[Video]</a> <a href="https://www.youtube.com/watch?v=sdkxWqsk17c&amp;t=0s">[Video]</a></strong> Programming with Microsoft PowerPoint. Building a Turning Machine with it. 😧
-<br></p>
+<h2 id="3---backend-server-in-ec2">3 - Backend Server in EC2</h2>
+<h3 id="overview">Overview</h3>
+<p>I have a springboot server in EC2 running on port 8080. This port should only be accessible by CloudFront to ensure security.</p>
+<p>It also needs to connect to RDS. This setting is to be configured on RDS side.</p>
+<p>In addition, the backend server will upload files to the object storage s3 bucket. So, it needs the IAM access to the s3 bucket.</p>
+<h3 id="security-group---inbound-rules">Security Group - Inbound Rules</h3>
+<ul>
+<li>TCP - 8080 - <code>com.amazonaws.global.cloudfront.origin-facing</code> (this is a special AWS-managed prefix list that contains all CloudFront edge locations&rsquo; IPs and allows their inbound traffic. check <a href="https://aws.amazon.com/blogs/networking-and-content-delivery/limit-access-to-your-origins-using-the-aws-managed-prefix-list-for-amazon-cloudfront/">[this guide]</a>)</li>
+<li>TCP - 22 - My own IP (for SSH access)</li>
+</ul>
+<h3 id="iam">IAM</h3>
+<p>IAM role for EC2 to access S3 bucket.</p>
 <br>
+<br>
+<h2 id="4---database-in-rds">4 - Database in RDS</h2>
+<h3 id="overview-1">Overview</h3>
+<p>The database should only be accessible by the backend server in EC2 and my own IP address</p>
+<h3 id="security-group---inbound-rules-1">Security Group - Inbound Rules</h3>
+<ul>
+<li>TCP - 3306 - Reference to EC2&rsquo;s security group, to make sure EC2 can access RDS (this is a great feature provided by AWS as I don&rsquo;t need to hard-code EC2&rsquo;s IP address)</li>
+<li>TCP - 3306 - My own IP</li>
+</ul>
+<br>
+<br>
+<h2 id="5---object-storage-in-s3">5 - Object Storage in S3</h2>
+<h3 id="overview-2">Overview</h3>
+<p>The object storage&rsquo;s REST API should only be accessible by CloudFront. No traffic should go directly to this S3 bucket.</p>
+<h3 id="configuration">Configuration</h3>
+<ul>
+<li>Block all public access: <code>enabled</code></li>
+<li>Bucket policy that allows CloudFront access</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2008-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Id&#34;</span>: <span style="color:#e6db74">&#34;PolicyForCloudFrontPrivateContent&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Sid&#34;</span>: <span style="color:#e6db74">&#34;AllowCloudFrontServicePrincipal&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Principal&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;Service&#34;</span>: <span style="color:#e6db74">&#34;cloudfront.amazonaws.com&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::&lt;bucket name&gt;/*&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;Condition&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;StringEquals&#34;</span>: {
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&#34;AWS:SourceArn&#34;</span>: <span style="color:#e6db74">&#34;&lt;CloudFront distro ARN&gt;&#34;</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="6---frontend-in-s3">6 - Frontend in S3</h2>
+<h3 id="overview-3">Overview</h3>
+<p>Similar to object storage&rsquo;s S3, for frontend&rsquo;s S3, the best approach is also to use S3 as origin and let CloudFront handle all the traffic.</p>
+<p>Two popular setups are:</p>
+<ul>
+<li>Do exact the same as what I did for object storage. Make s3 bucket private and only allow CloudFront access through Origin Access Control and bucket policy. In this case, the origin in CloudFront would point to s3 <code>REST API Endpoint</code>. e.g. <code>https://&lt;bucket-name&gt;.s3.&lt;region&gt;.amazonaws.com/</code></li>
+<li>Make S3 bucket public and enable static website hosting. In this case, we allow CloudFront&rsquo;s sole access through Referer header. The idea is that we let cloudfront add a custom header with a secret value when it forwards the request to S3. Then S3 checks the header and only allows the request if the header is correct. In this case, although S3 is public, only CloudFront can access it still. Another key difference between this option and the first option is that the CloudFront would point to s3&rsquo;s <code>Static Website Endpoint</code> instead of <code>REST API Endpoint</code>. The <code>Static Website Endpoint</code> is something like <code>http://&lt;bucket-name&gt;.s3-website.&lt;region&gt;.amazonaws.com</code></li>
+</ul>
+<p>Read more about all possible options <a href="https://repost.aws/knowledge-center/cloudfront-serve-static-website">[here]</a>.</p>
+<p>Among these two, based on my research and previous experience, the first option is definitely more popular, secure and recommended. I only came across one article that suggested doing the second, but the author&rsquo;s explanation is pretty vague. The article supporting the second option can be found <a href="https://xebia.com/blog/best-practices-for-s3-web-hosting-and-explaining-why/">[here]</a>.</p>
+<h3 id="what-i-did">What I did</h3>
+<p>Although the first method would be the best, what I did is a downgrade version of the second method - I made the S3 bucket public, enabled static website hosting and let CloudFront access this public endpoint. I didn&rsquo;t set up the Referer header check so the S3 website endpoint is publicly accessible as well.</p>
+<p>I chose this approach because the website isn&rsquo;t fully developed, and the AWS setup might still change. Having a direct-access S3 endpoint as a backup is beneficial for future testing purpose. Plus, there doesn&rsquo;t seem to be any major security concern with this setup. Even if a mal user finds the S3 endpoint, there isn&rsquo;t much they can do. I feel like EC2 and RDS are more critical targets if misconfigured.</p>
+<h2 id="7---conclusion">7 - Conclusion</h2>
+<h3 id="summary-of-the-setup">Summary of the setup</h3>
+<ul>
+<li>CloudFront is the only legit public endpoint in the system. It routes traffic to all other modules.</li>
+<li>EC2: only accessible by CloudFront and my own IP. It is hidden.</li>
+<li>RDS: only accessible by EC2 and my own IP. It is hidden.</li>
+<li>Object Storage S3: only accessible by CloudFront. It is hidden.</li>
+<li>Frontend S3: theroetically it should be hidden, but I made it public for now as a backup endpoint. All normal requests still go through CloudFront.</li>
+</ul>
+<p>Thank you for reading 😊.</p>
 
           </article>
         </div>
@@ -313,14 +395,54 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
               <div class="toc-content">
                 <nav id="TableOfContents">
   <ul>
-    <li><a href="#backendsystem-design">Backend/System Design</a></li>
-    <li><a href="#machine-learningdata">Machine Learning/Data</a></li>
-    <li><a href="#computer-networks">Computer Networks</a></li>
-    <li><a href="#artifical-intelligence-the-subject">Artifical Intelligence (The subject)</a></li>
-    <li><a href="#distributed-systems">Distributed Systems</a></li>
-    <li><a href="#cryptography">Cryptography</a></li>
-    <li><a href="#cs-self-learning--roadmap">CS Self-Learning  RoadMap</a></li>
-    <li><a href="#fun-stuff">Fun Stuff</a></li>
+    <li><a href="#0---overview">0 - Overview</a>
+      <ul>
+        <li><a href="#background">Background</a></li>
+        <li><a href="#why-it-is-a-production-setup">Why it is a production setup</a></li>
+        <li><a href="#-cost-constraints">!!! Cost constraints</a></li>
+      </ul>
+    </li>
+    <li><a href="#1---overall-architecture">1 - Overall architecture</a>
+      <ul>
+        <li><a href="#heading"></a></li>
+      </ul>
+    </li>
+    <li><a href="#2---cloudfront-cdn">2 - CloudFront CDN</a>
+      <ul>
+        <li><a href="#purpose">Purpose</a></li>
+        <li><a href="#how-it-route-traffic">How it route traffic</a></li>
+      </ul>
+    </li>
+    <li><a href="#3---backend-server-in-ec2">3 - Backend Server in EC2</a>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#security-group---inbound-rules">Security Group - Inbound Rules</a></li>
+        <li><a href="#iam">IAM</a></li>
+      </ul>
+    </li>
+    <li><a href="#4---database-in-rds">4 - Database in RDS</a>
+      <ul>
+        <li><a href="#overview-1">Overview</a></li>
+        <li><a href="#security-group---inbound-rules-1">Security Group - Inbound Rules</a></li>
+      </ul>
+    </li>
+    <li><a href="#5---object-storage-in-s3">5 - Object Storage in S3</a>
+      <ul>
+        <li><a href="#overview-2">Overview</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+      </ul>
+    </li>
+    <li><a href="#6---frontend-in-s3">6 - Frontend in S3</a>
+      <ul>
+        <li><a href="#overview-3">Overview</a></li>
+        <li><a href="#what-i-did">What I did</a></li>
+      </ul>
+    </li>
+    <li><a href="#7---conclusion">7 - Conclusion</a>
+      <ul>
+        <li><a href="#summary-of-the-setup">Summary of the setup</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
               </div>
@@ -332,7 +454,9 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
             <h5>Tags</h5>
             <ul class="tags-ul list-unstyled list-inline">
               
-              <li class="list-inline-item"><a href="/tags/resource-sharing" target="_blank">resource-sharing</a></li>
+              <li class="list-inline-item"><a href="/tags/aws" target="_blank">aws</a></li>
+              
+              <li class="list-inline-item"><a href="/tags/web-dev" target="_blank">web-dev</a></li>
               
             </ul>
           </aside>
@@ -561,6 +685,24 @@ Good Tech Tutorials/Blogs/Sites | Ziming Wang
 
 
 
+
+
+<!-- MathJax -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" integrity="sha384-M5jmNxKC9EVnuqeMwRHvFuYUE8Hhp0TgBruj/GZRkYtiMrCRgH7yvv5KY+Owi7TW" crossorigin="anonymous"></script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\[','\]']],
+        processEscapes: true,
+        processEnvironments: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        TeX: { equationNumbers: { autoNumber: "AMS" },
+             extensions: ["AMSmath.js", "AMSsymbols.js"] }
+      }
+    });
+</script>
 
 
 

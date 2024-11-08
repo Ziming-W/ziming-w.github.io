@@ -2,8 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/blogs/small-website-prod-aws-setup/</loc>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/tags/aws/</loc>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
+  </url><url>
     <loc>/blogs/</loc>
-    <lastmod>2024-06-17T00:00:00+05:30</lastmod>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/tags/web-dev/</loc>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
+  </url><url>
+    <loc>/</loc>
+    <lastmod>2024-11-08T00:00:00+05:30</lastmod>
   </url><url>
     <loc>/blogs/consensus-raft/</loc>
     <lastmod>2024-06-17T00:00:00+05:30</lastmod>
@@ -14,19 +29,10 @@
     <loc>/tags/raft/</loc>
     <lastmod>2024-06-17T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>/tags/</loc>
-    <lastmod>2024-06-17T00:00:00+05:30</lastmod>
-  </url><url>
-    <loc>/</loc>
-    <lastmod>2024-06-17T00:00:00+05:30</lastmod>
-  </url><url>
     <loc>/tags/elasticsearch/</loc>
     <lastmod>2024-02-28T00:00:00+05:30</lastmod>
   </url><url>
-    <loc>/tags/etl/</loc>
-    <lastmod>2024-02-28T00:00:00+05:30</lastmod>
-  </url><url>
-    <loc>/tags/logstash/</loc>
+    <loc>/tags/elk/</loc>
     <lastmod>2024-02-28T00:00:00+05:30</lastmod>
   </url><url>
     <loc>/blogs/middlewares-es-sql/</loc>
@@ -36,9 +42,6 @@
     <lastmod>2024-02-28T00:00:00+05:30</lastmod>
   </url><url>
     <loc>/blogs/deploy-elk-ubuntu/</loc>
-    <lastmod>2024-02-08T00:00:00+05:30</lastmod>
-  </url><url>
-    <loc>/tags/kibana/</loc>
     <lastmod>2024-02-08T00:00:00+05:30</lastmod>
   </url><url>
     <loc>/tags/ubuntu/</loc>

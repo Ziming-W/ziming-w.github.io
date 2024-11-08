@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>logstash on Ziming Wang</title>
-    <link>/tags/logstash/</link>
-    <description>Recent content in logstash on Ziming Wang</description>
+    <title>elk on Ziming Wang</title>
+    <link>/tags/elk/</link>
+    <description>Recent content in elk on Ziming Wang</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Feb 2024 00:00:00 +0530</lastBuildDate><atom:link href="/tags/logstash/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Feb 2024 00:00:00 +0530</lastBuildDate><atom:link href="/tags/elk/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Middlewares for Data Syncing between ElasticSearch and PostgreSQL</title>
       <link>/blogs/middlewares-es-sql/</link>

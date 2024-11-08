@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>A Production Setup for a Small-Scale Website on AWS on Ziming Wang</title>
+    <link>/blogs/small-website-prod-aws-setup/</link>
+    <description>Recent content in A Production Setup for a Small-Scale Website on AWS on Ziming Wang</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 08 Nov 2024 00:00:00 +0530</lastBuildDate><atom:link href="/blogs/small-website-prod-aws-setup/index.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>
